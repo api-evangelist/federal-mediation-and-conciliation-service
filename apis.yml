@@ -18,10 +18,16 @@ url: >-
 specificationVersion: '0.19'
 apis: []
 common:
+  - type: VulnerabilityDisclosure
+    url: security/federal-mediation-and-conciliation-service-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/federal-mediation-and-conciliation-service-domain-security.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/federal-mediation-and-conciliation-service
   - type: Website
     url: https://www.fmcs.gov/
+  - url: https://www.fmcs.gov/feed/
+    type: Blog
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

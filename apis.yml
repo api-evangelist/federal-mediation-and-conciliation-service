@@ -5,7 +5,18 @@ description: >-
   other conflict resolution services for managing and enhancing labor-management
   relationships.
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: unknown
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Unknown
+  confidence: low
+  source: []
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/federal-mediation-and-conciliation-service.png
 access: 3rd-Party
 created: '2024-12-03'
 modified: '2026-04-28'

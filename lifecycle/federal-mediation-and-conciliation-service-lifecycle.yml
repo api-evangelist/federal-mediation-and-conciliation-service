@@ -1,0 +1,116 @@
+generated: '2026-09-09'
+method: probed
+source: live probes of www.fmcs.gov, fmcs.gov and arbitration.fmcs.gov (2026-09-09)
+versioning:
+  scheme: namespace-in-path
+  current: wp/v2
+  docs: null
+  policy_url: null
+  note: >-
+    The version is the WordPress namespace and moves with the site's WordPress and plugin upgrades. FMCS
+    publishes no versioning policy, makes no compatibility commitment, and gives no notice of change. The
+    route index simultaneously advertises four Event Espresso namespace versions (ee/v4.8.29, v4.8.33,
+    v4.8.34, v4.8.36), which is a plugin compatibility shim rather than an FMCS versioning decision.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  note: >-
+    No deprecation policy, no RFC 8594 Sunset or Deprecation headers, no announcement channel. No
+    Deprecation pointer is wired in apis.yml, because no deprecation policy exists.
+sla:
+  url: null
+  uptime_target: null
+status_page: null
+status_page_note: >-
+  FMCS publishes no status page. status.fmcs.gov does not resolve. No StatusPage pointer is wired in
+  apis.yml.
+deprecated_operations: []
+change_signal:
+  best_available: 'the modified_gmt field on each record, and the sitemap lastmod timestamps'
+  changelog: null
+  rss:
+    url: https://www.fmcs.gov/feed/
+    status: 200
+    items: 10
+    newest_item: '2020-12-08'
+    note: >-
+      The RSS feed is live and valid but effectively dormant — 10 items, newest dated December 2020. It is
+      NOT a usable change signal for this site. The blog-style post type is a historical timeline, not a
+      news stream.
+  sitemap:
+    url: https://www.fmcs.gov/sitemap_index.xml
+    status: 200
+    child_sitemaps: 10
+    lastmod_observed:
+      - {sitemap: page-sitemap.xml, lastmod: '2026-09-02'}
+      - {sitemap: attachment-sitemap.xml, lastmod: '2026-09-02'}
+      - {sitemap: post-sitemap.xml, lastmod: '2026-01-29'}
+      - {sitemap: wpbdp_listing-sitemap.xml, lastmod: '2023-08-22'}
+      - {sitemap: espresso_events-sitemap.xml, lastmod: '2025-01-08'}
+      - {sitemap: espresso_people-sitemap.xml, lastmod: '2016-07-25'}
+    note: >-
+      The sitemap lastmod values are the most honest freshness map of this site: pages and attachments move
+      weekly (the monthly F-7 workbook upload is what drives attachment churn), posts move rarely, and the
+      neutrals directory has not been touched since August 2023.
+  recommended_polling:
+    - {collection: /wp/v2/media, param: 'modified_after', cadence: monthly, reason: 'new F-7 notice workbooks and FOIA reports are uploaded here'}
+    - {collection: /wp/v2/pages, param: 'modified_after', cadence: weekly, reason: 'programme and services pages are the actively maintained content'}
+publication_cadence:
+  f7_notices:
+    frequency: monthly
+    format: xlsx
+    location: 'https://www.fmcs.gov/resources/documents-and-data/'
+    coverage_observed: 'FY2018 through July 2026'
+    note: >-
+      The agency's flagship dataset. Statutory collective bargaining notices under 29 U.S.C. 158(d),
+      published as one Excel workbook per month with a separate file-layout document. There is no API, no
+      CSV, no JSON and no bulk endpoint — the workbooks are wp-content uploads, individually addressable
+      through the catalogued media collection but not queryable.
+  foia_reports:
+    frequency: quarterly and annual
+    formats: [pdf, xml, csv, xlsx]
+    note: 'The FOIA annual reports are the only FMCS publications that ship a machine-readable XML and CSV twin alongside the PDF.'
+  per_diem_rates:
+    frequency: 'roughly quarterly'
+    format: pdf
+    note: Arbitrator per-diem rate sheets.
+gated_systems:
+  note: >-
+    FMCS's transactional surfaces are login-gated applications on separate hosts with no public contract.
+    They are recorded here because their absence, not their presence, is the finding.
+  systems:
+    - name: FMCS Arbitration System
+      url: https://arbitration.fmcs.gov/
+      status: 200
+      landing: https://arbitration.fmcs.gov/login.aspx
+      platform: 'ASP.NET WebForms'
+      contract: none
+      probes:
+        - {url: 'https://arbitration.fmcs.gov/swagger/v1/swagger.json', status: 404}
+        - {url: 'https://arbitration.fmcs.gov/openapi.json', status: 404}
+        - {url: 'https://arbitration.fmcs.gov/api/', status: 404}
+        - {url: 'https://arbitration.fmcs.gov/Service.asmx?wsdl', status: 200, note: 'HTTP 200 but the body is the application''s themed ASP.NET error page, not a WSDL; a control request to a service name that cannot exist returns the identical 1,245-byte body. Not a SOAP contract.'}
+        - {url: 'https://arbitration.fmcs.gov/service.svc?wsdl', status: 404}
+    - name: F-7 online notice filing
+      url: https://www.fmcs.gov/resources/documents-and-data/filing_an_f-7_online/
+      status: 200
+      contract: none
+      note: >-
+        Since 5 April 2022 FMCS accepts F-7 notices ONLY through the online portal — paper, fax, mail and
+        email were withdrawn. That makes the filing path digital-only and still API-less: a party with
+        hundreds of agreements has no programmatic way to file, and no machine-readable receipt.
+absent_developer_surface:
+  probed:
+    - {url: 'https://www.fmcs.gov/developer/', status: 404}
+    - {url: 'https://www.fmcs.gov/api/', status: 404}
+    - {url: 'https://www.fmcs.gov/open-government/', status: 404}
+    - {url: 'https://www.fmcs.gov/opengov/', status: 404}
+    - {url: 'https://www.fmcs.gov/digital-strategy/', status: 404}
+    - {url: 'https://api.fmcs.gov/', status: 0, note: 'no DNS'}
+    - {url: 'https://data.fmcs.gov/', status: 0, note: 'no DNS'}
+    - {url: 'https://developer.fmcs.gov/', status: 0, note: 'no DNS'}
+  note: >-
+    No developer portal, no API documentation, no open-government or digital-strategy page. FMCS does name
+    a Chief Data Officer and a data contact (data@fmcs.gov) on https://www.fmcs.gov/data/ — that page is
+    the closest the agency comes to a data programme, and it points at documents rather than at an API.

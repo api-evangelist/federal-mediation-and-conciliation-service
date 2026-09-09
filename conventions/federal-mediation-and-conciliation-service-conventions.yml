@@ -1,0 +1,129 @@
+generated: '2026-09-09'
+method: probed
+source: >-
+  live responses from https://www.fmcs.gov/wp-json/wp/v2/* (2026-09-09) plus the verbatim route discovery
+  document at openapi/federal-mediation-and-conciliation-service-wp-routes-original.json
+summary: >-
+  A standard WordPress REST API served anonymously and read-only. Every convention below is the WordPress
+  platform's, observed live on the FMCS host — FMCS documents none of them itself.
+authentication:
+  style: none
+  detail: No credential is required or accepted on the public surface. See authentication/.
+routing:
+  canonical_base: https://www.fmcs.gov/wp-json
+  canonical_base_status: 200
+  canonical_base_note: >-
+    Unlike some federal WordPress deployments, the canonical /wp-json/ base works here — no edge redirect,
+    no User-Agent filtering. A browser-shaped User-Agent and a plain curl User-Agent are both served.
+  alternate_base: https://www.fmcs.gov/?rest_route=
+  alternate_base_note: WordPress's query-string route form also works but is unnecessary on this host.
+pagination:
+  style: page-and-size
+  params:
+    - {name: page, type: integer, default: 1, minimum: 1}
+    - {name: per_page, type: integer, default: 10, minimum: 1, maximum: 100}
+    - {name: offset, type: integer, note: 'supported on post-type collections'}
+    - {name: order, type: string, enum: [asc, desc]}
+    - {name: orderby, type: string, note: 'date, id, title, slug, relevance and others per collection'}
+  response_headers: [X-WP-Total, X-WP-TotalPages, Link]
+  link_header: RFC 8288 rel="next" / rel="prev"
+  exceeded_behaviour: 'per_page > 100 returns HTTP 400 rest_invalid_param'
+  evidence:
+    url: 'https://www.fmcs.gov/wp-json/wp/v2/posts?per_page=1'
+    status: 200
+    headers: {X-WP-Total: '57', X-WP-TotalPages: '57', Link: '<...posts?per_page=1&page=2>; rel="next"'}
+field_selection:
+  supported: true
+  params:
+    - {name: _fields, note: 'comma-separated allow-list of top-level fields to return'}
+    - {name: _embed, note: 'inline embedded resources referenced from _links'}
+    - {name: _envelope, note: 'wrap body, status and headers into a single JSON envelope'}
+  note: Platform-standard WordPress sparse-fieldset support; not documented by FMCS.
+filtering:
+  note: >-
+    Collections accept search, slug, include, exclude, before, after, modified_before, modified_after,
+    author, categories, tags, status and per-taxonomy filters. The exact set per collection is taken from
+    the route discovery document and reproduced verbatim in the derived OpenAPI.
+  useful_example: >-
+    The document library is filterable — /wp/v2/media?mime_type=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    narrows the 1,122-item library to the F-7 notice workbooks and FOIA log spreadsheets.
+hypermedia:
+  style: HAL-ish _links
+  detail: >-
+    Every record carries a _links object with self, collection, about, author, replies, wp:attachment,
+    wp:term and curies entries. On this host the _links values use the working /wp-json/ base, so the
+    surface is genuinely walkable from the root without any documentation.
+metadata:
+  supported: true
+  note: >-
+    WordPress `meta` object per record. FMCS registers no custom public meta fields; the Business Directory
+    listing detail lives in plugin tables the REST projection does not expose, which is why
+    /wp/v2/wpbdp_listing records have empty content bodies.
+request_tracing:
+  request_id_header: null
+  note: No request-id or correlation header is returned on any observed response.
+versioning:
+  scheme: namespace-in-path
+  current: wp/v2
+  namespaces_advertised: 23
+  note: >-
+    Version is the WordPress namespace (wp/v2). FMCS publishes no versioning policy and makes no
+    compatibility commitment; the surface moves when the site's WordPress and plugins are upgraded. The
+    route index also advertises four simultaneous Event Espresso namespace versions (ee/v4.8.29 through
+    ee/v4.8.36), which is the platform's own compatibility shim, not an FMCS versioning scheme.
+error_envelope:
+  format: wordpress-rest
+  rfc9457: false
+  media_type: application/json
+  shape: '{"code": "<machine code>", "message": "<human text>", "data": {"status": <http status>, "params": {...}, "details": {...}}}'
+  see: errors/federal-mediation-and-conciliation-service-problem-types.yml
+rate_limit_signaling:
+  headers: none
+  see: rate-limits/federal-mediation-and-conciliation-service-rate-limits.yml
+caching:
+  cache_control: 'no-store, no-cache, must-revalidate'
+  etag: false
+  conditional_requests: false
+  note: >-
+    The origin sends Cache-Control: no-store, no-cache, must-revalidate plus a 1981 Expires header and no
+    ETag or Last-Modified on API responses, so conditional requests are not available. Records carry a
+    `modified_gmt` field, which is the only change signal and the practical way to poll for new content —
+    and the correct one to use for the document library, where new F-7 workbooks appear monthly.
+cors:
+  access_control_allow_headers: 'Authorization, X-WP-Nonce, Content-Disposition, Content-MD5, Content-Type'
+  access_control_expose_headers: 'X-WP-Total, X-WP-TotalPages, Link'
+  vary: 'Origin,User-Agent'
+security_headers:
+  strict_transport_security: 'max-age=63072000; includeSubDomains; preload'
+  x_content_type_options: nosniff
+  x_frame_options: DENY
+  x_robots_tag: noindex
+  note: 'X-Robots-Tag: noindex is applied to API responses, so the JSON surface is excluded from search indexes.'
+idempotency:
+  coverage: na
+  mechanism: none
+  scope: []
+  note: >-
+    NOT APPLICABLE, not absent. The public surface is read-only — every catalogued operation is a GET, and
+    collection responses advertise `Allow: GET` to an anonymous caller, so there is no mutating surface for
+    an idempotency key to protect. /wp/v2/settings and /wp/v2/block-types return 401 rest_forbidden
+    anonymously. An `na` here leaves the denominator rather than scoring a zero the provider did not earn.
+    No Idempotency pointer is wired in apis.yml, because there is no idempotency contract to point at.
+dry_run_mode:
+  supported: na
+  note: Read-only surface; nothing to rehearse.
+reversibility:
+  grade: na
+  write_surfaces: []
+  note: >-
+    NOT APPLICABLE. There is no write surface on the public API, so there is no action to take back. No
+    reversal operation, window or restore path exists or is needed. Recorded explicitly rather than left
+    blank so the dimension leaves the denominator instead of scoring zero. FMCS's genuinely consequential
+    write flows — filing an F-7 notice, requesting an arbitration panel — happen in the login-gated portals
+    on separate hosts and publish no contract at all, so their reversibility is unknowable from outside.
+cross_links:
+  authentication: authentication/federal-mediation-and-conciliation-service-authentication.yml
+  errors: errors/federal-mediation-and-conciliation-service-problem-types.yml
+  lifecycle: lifecycle/federal-mediation-and-conciliation-service-lifecycle.yml
+  rate_limits: rate-limits/federal-mediation-and-conciliation-service-rate-limits.yml
+  data_model: data-model/federal-mediation-and-conciliation-service-data-model.yml

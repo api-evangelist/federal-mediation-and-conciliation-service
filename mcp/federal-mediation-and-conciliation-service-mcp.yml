@@ -1,0 +1,80 @@
+generated: '2026-09-09'
+method: derived
+status: candidate
+source: openapi/federal-mediation-and-conciliation-service-wp-content-openapi.yml
+summary: >-
+  No official hosted or remote Model Context Protocol server exists for FMCS, and none should be implied.
+  Searched the FMCS site, the site's own route index (no mcp namespace among its 23 namespaces), npm
+  @modelcontextprotocol, the public MCP registries, and every FMCS-shaped hostname; nothing exists. FMCS has
+  no verifiable GitHub organization. The tools below are DERIVED by API Evangelist from the public content
+  API as a proposal only. They are not published by FMCS. The apis.yml pointer is type X-MCPServerCandidate,
+  NOT MCPServer, because no server exists.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: none
+  verified: derived
+  note: >-
+    mode is none because nobody ships a server — neither a remote endpoint nor a stdio package. No endpoint
+    URL is invented here; a guessed MCP path that happened to answer would read as a verified agent surface,
+    which would be the worst possible artifact on this record.
+server: null
+transport: null
+url: null
+auth:
+  type: none
+  note: The backing surface is anonymous and read-only, so a server built on it would need no credential.
+candidate_tools:
+  - name: search_fmcs_content
+    description: Search FMCS pages, posts and events by keyword and return lightweight {id, title, url, type} hits.
+    source_operation: openapi/federal-mediation-and-conciliation-service-wp-content-openapi.yml#search
+    maps_to: GET /wp/v2/search
+  - name: list_fmcs_documents
+    description: >-
+      List the FMCS document library — F-7 collective bargaining notice workbooks, FOIA logs and annual
+      reports, arbitrator per-diem rate sheets, audit reports — filterable by mime_type and modified_after.
+    source_operation: openapi/federal-mediation-and-conciliation-service-wp-content-openapi.yml#listMedia
+    maps_to: GET /wp/v2/media
+  - name: get_fmcs_document
+    description: Retrieve one document record including its direct source_url, mime type and byte size.
+    source_operation: openapi/federal-mediation-and-conciliation-service-wp-content-openapi.yml#getMedia
+    maps_to: GET /wp/v2/media/{id}
+  - name: list_fmcs_pages
+    description: List FMCS programme and services pages — arbitration, mediation, forms and applications, FOIA, data.
+    source_operation: openapi/federal-mediation-and-conciliation-service-wp-content-openapi.yml#listPages
+    maps_to: GET /wp/v2/pages
+  - name: get_fmcs_page
+    description: Retrieve the full rendered text of one FMCS page by id.
+    source_operation: openapi/federal-mediation-and-conciliation-service-wp-content-openapi.yml#getPage
+    maps_to: GET /wp/v2/pages/{id}
+  - name: list_fmcs_services
+    description: >-
+      List the FMCS service taxonomy — the seventeen service lines the agency classifies its FAQ content by
+      (arbitration, grievance mediation, workplace mediation, facilitation, regulatory negotiations and the rest).
+    source_operation: openapi/federal-mediation-and-conciliation-service-wp-content-openapi.yml#listFaqCategories
+    maps_to: GET /wp/v2/faq_category
+  - name: list_fmcs_events
+    description: List FMCS training and convening announcements.
+    source_operation: openapi/federal-mediation-and-conciliation-service-wp-content-openapi.yml#listEvents
+    maps_to: GET /wp/v2/event
+  - name: list_fmcs_posts
+    description: List FMCS site posts, including the agency history timeline, filterable by category and date.
+    source_operation: openapi/federal-mediation-and-conciliation-service-wp-content-openapi.yml#listPosts
+    maps_to: GET /wp/v2/posts
+excluded_operations:
+  note: >-
+    Two real, working operations are deliberately NOT proposed as tools. They return records identifying
+    natural persons, and packaging a person-lookup endpoint with working pagination as an agent tool is how
+    a catalog turns a public directory into a scraping utility. The exclusion is recorded so the omission
+    reads as deliberate rather than as an oversight.
+  operations:
+    - {operationId: listDirectoryListings, reason: 'personal data — 121 named individuals in the FMCS neutrals directory'}
+    - {operationId: getDirectoryListing, reason: 'personal data'}
+    - {operationId: listAuthors, reason: 'personal data — named agency staff accounts'}
+    - {operationId: getAuthor, reason: 'personal data'}
+implementation_note: >-
+  Any implementer should call https://www.fmcs.gov/wp-json/ directly — the canonical base works, no
+  User-Agent filtering was observed, and responses carry X-WP-Total/X-WP-TotalPages for paging. Poll
+  /wp/v2/media with modified_after monthly rather than re-listing; that is where the F-7 workbooks land.

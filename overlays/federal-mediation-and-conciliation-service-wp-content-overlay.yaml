@@ -1,0 +1,70 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the FMCS Public Content API
+  version: 1.0.0
+x-provenance:
+  generated: '2026-09-09'
+  method: generated
+  source: openapi/federal-mediation-and-conciliation-service-wp-content-openapi.yml
+  note: >-
+    Records what API Evangelist added on top of the FMCS WordPress route discovery document. FMCS publishes
+    no OpenAPI, so the "original" this extends is itself derived — the overlay therefore captures the
+    editorial layer (provenance, verification stamps, personal-data annotations, taxonomy naming) rather
+    than corrections to a provider-authored spec. The underlying spec file is never mutated.
+extends: openapi/federal-mediation-and-conciliation-service-wp-content-openapi.yml
+actions:
+  - target: $.info
+    description: Stamp the rating and the derivation provenance on the document.
+    update:
+      x-apievangelist-profile: https://apis.io/provider/federal-mediation-and-conciliation-service/
+      x-apievangelist-derived-from: https://www.fmcs.gov/wp-json/
+      x-apievangelist-verified: '2026-09-09'
+  - target: $.info
+    description: >-
+      Record that the provider publishes no specification of its own, so no future pass mistakes this
+      document for an FMCS artifact.
+    update:
+      x-provider-publishes-spec: false
+  - target: $.tags
+    description: >-
+      Nine functional tags were added by API Evangelist. The WordPress route index carries no tags, no
+      summaries and no descriptions — every one of those in this spec is editorial.
+    update:
+      x-apievangelist-authored: true
+  - target: $.paths['/wp/v2/media'].get
+    description: >-
+      Surface the fact that the document library is where the F-7 collective bargaining notice workbooks
+      and FOIA reports actually live — the single most useful thing about this API, and something no
+      WordPress route document could say.
+    update:
+      x-dataset-of-record:
+        name: FMCS F-7 collective bargaining notices
+        cadence: monthly
+        format: xlsx
+        statutory_basis: 29 U.S.C. 158(d)
+        publisher_page: https://www.fmcs.gov/resources/documents-and-data/
+        filter_hint: 'mime_type=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  - target: $.paths['/wp/v2/faq_category'].get
+    description: Mark the FAQ taxonomy as the agency's de facto service catalogue.
+    update:
+      x-service-catalog:
+        terms: 17
+        classified_records: 0
+        note: >-
+          The taxonomy enumerates FMCS's service lines but classifies nothing, because the avada_faq post
+          type it binds to is empty.
+  - target: $.paths['/wp/v2/wpbdp_listing'].get
+    description: Annotate the neutrals directory as personal data and record the tooling exclusion.
+    update:
+      x-agent-tooling: excluded
+      x-agent-tooling-reason: 'personal data — excluded from every skill and MCP tool in this profile'
+  - target: $.paths['/wp/v2/users'].get
+    description: Annotate the author list as personal data and record the tooling exclusion.
+    update:
+      x-agent-tooling: excluded
+      x-agent-tooling-reason: 'personal data — excluded from every skill and MCP tool in this profile'
+  - target: $.components.schemas.WPError
+    description: Flag that this API does not use RFC 9457, so a problem+json client will not parse it.
+    update:
+      x-rfc9457: false
+      x-discriminator-field: code

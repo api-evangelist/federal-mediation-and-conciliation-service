@@ -1,0 +1,27 @@
+generated: '2026-09-09'
+method: probed
+source: 'https://www.fmcs.gov/ (no pricing page exists) + anonymous HTTP 200 on the API surface'
+plan_count: 0
+note: >-
+  FMCS is an independent United States federal agency and publishes no plans, no pricing page, no developer
+  signup and no paid API tier. There is nothing to buy and nothing to register for to call the public
+  content API, which answers anonymously with no credential. The correct reading is not "enterprise
+  contact-us gate" but "free and open, with no commercial API surface at all". Recorded as an explicit zero
+  rather than omitted, so the absence is data.
+plans: []
+access:
+  pricing: free
+  signup_required: false
+  api_key_required: false
+  evidence:
+    - {url: 'https://www.fmcs.gov/wp-json/wp/v2/posts?per_page=1', status: 200, note: 'served with no credential'}
+    - {url: 'https://www.fmcs.gov/terms-of-use/', status: 200, note: 'website terms of use; no pricing and no terms of sale'}
+fee_bearing_services:
+  note: >-
+    FMCS does charge fees for some of its SERVICES — the arbitration panel request carries a filing fee and
+    is cheaper filed online, and per-diem rate sheets for arbitrators are published quarterly. None of that
+    is API pricing: it is the price of an agency service, transacted in the login-gated arbitration system,
+    and no machine-readable price list or billing API exists.
+  references:
+    - {url: 'https://www.fmcs.gov/resources/forms-applications/arbitration/', status: 200}
+    - {url: 'https://arbitration.fmcs.gov/', status: 200, note: 'login-gated'}

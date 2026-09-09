@@ -1,0 +1,57 @@
+generated: '2026-09-09'
+method: probed
+source: >-
+  openapi/federal-mediation-and-conciliation-service-wp-content-openapi.yml plus live anonymous probes of
+  https://www.fmcs.gov/wp-json/ (2026-09-09)
+summary:
+  types: [none]
+  api_key_in: []
+  oauth2_flows: []
+  public_read: true
+  note: >-
+    The catalogued surface requires no authentication at all. All 31 operations in the derived OpenAPI were
+    called with no credential and returned HTTP 200 on 2026-09-09. FMCS issues no API keys, runs no developer
+    signup and publishes no authentication documentation, because it publishes no developer programme.
+schemes: []
+public_surface:
+  scheme: none
+  evidence:
+    - {url: 'https://www.fmcs.gov/wp-json/', status: 200, note: 'route discovery document, 1,020 routes, no credential'}
+    - {url: 'https://www.fmcs.gov/wp-json/wp/v2/posts?per_page=1', status: 200, note: 'JSON returned with no Authorization header'}
+    - {url: 'https://www.fmcs.gov/wp-json/wp/v2/media?per_page=1', status: 200}
+    - {url: 'https://www.fmcs.gov/wp-json/wp/v2/wpbdp_listing?per_page=1', status: 200}
+gated_surface:
+  note: >-
+    The same host advertises an authenticated write and administrative surface that is NOT part of the public
+    API and is not modelled in the OpenAPI. The route index declares WordPress Application Passwords as the
+    site's authentication mechanism, and anonymous callers are refused on every administrative route.
+  schemes_advertised_by_platform:
+    - name: WordPress Application Passwords
+      type: http
+      scheme: basic
+      authorization_endpoint: https://www.fmcs.gov/wp-admin/authorize-application.php
+      note: >-
+        Declared verbatim in the route discovery document under `authentication`. This is a WordPress
+        site-administrator mechanism, not a developer credential FMCS issues to the public.
+    - name: Cookie + X-WP-Nonce
+      type: apiKey
+      in: header
+      parameter: X-WP-Nonce
+      note: Advertised in Access-Control-Allow-Headers on every response.
+  evidence:
+    - {url: 'https://www.fmcs.gov/wp-json/wp/v2/settings', status: 401, body: '{"code":"rest_forbidden","message":"Sorry, you are not allowed to do that.","data":{"status":401}}'}
+    - {url: 'https://www.fmcs.gov/wp-json/wp/v2/block-types', status: 401, note: 'rest_forbidden'}
+    - {url: 'https://www.fmcs.gov/wp-json/wp/v2/comments', status: 403, body: '{"code":"rest_comment_disabled","message":"Comments are disabled.","data":{"status":403}}'}
+    - {header: 'Allow: GET', note: 'Collection responses advertise GET only for an anonymous caller'}
+    - {header: 'Access-Control-Allow-Headers: Authorization, X-WP-Nonce, Content-Disposition, Content-MD5, Content-Type'}
+separate_gated_systems:
+  note: >-
+    FMCS operates two login-gated case systems on separate hosts. Neither publishes a machine-readable
+    contract, neither is part of the API catalogued here, and no credential is issued to developers.
+  systems:
+    - {name: FMCS Arbitration System, url: 'https://arbitration.fmcs.gov/', status: 200, landing: 'https://arbitration.fmcs.gov/login.aspx', note: 'ASP.NET WebForms login; arbitration panel requests and case management'}
+    - {name: F-7 notice online filing, url: 'https://www.fmcs.gov/resources/documents-and-data/filing_an_f-7_online/', status: 200, note: 'Since 5 April 2022 F-7 notices may only be filed through the online portal; the portal itself is account-gated'}
+docs: null
+docs_note: >-
+  FMCS publishes no authentication documentation. The upstream platform reference is
+  https://developer.wordpress.org/rest-api/using-the-rest-api/authentication/ — WordPress's, not FMCS's.

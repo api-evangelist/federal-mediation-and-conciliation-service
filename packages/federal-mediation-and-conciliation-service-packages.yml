@@ -1,0 +1,57 @@
+generated: '2026-09-09'
+method: searched
+source: >-
+  live registry queries against npm, PyPI, RubyGems, crates.io, NuGet and Packagist, plus GitHub
+  organization checks (2026-09-09)
+package_count: 0
+official_package_count: 0
+note: >-
+  FMCS ships no client libraries. No first-party SDK exists in any public registry, FMCS publishes no SDK
+  or CLI page, and no verifiable FMCS GitHub organization exists. No SDKs pointer is wired in apis.yml,
+  because there are no SDKs. The only substantive registry-adjacent result is third-party and is recorded
+  below because it is the clearest available evidence of who actually consumes FMCS's published data.
+packages: []
+searched:
+  - {registry: npm, endpoint: 'https://registry.npmjs.org/-/v1/search?text=fmcs', total: 1, result: 'one unrelated package (dsx-fmcs-ui-kit, a Vite/React template); no FMCS package'}
+  - {registry: npm, endpoint: 'https://registry.npmjs.org/-/v1/search?text=fmcs.gov', total: 0, result: none}
+  - {registry: pypi, endpoint: 'https://pypi.org/pypi/fmcs/json', status: 404, result: none}
+  - {registry: pypi, endpoint: 'https://pypi.org/pypi/fmcs-api/json', status: 404, result: none}
+  - {registry: pypi, endpoint: 'https://pypi.org/pypi/fmcs-f7/json', status: 404, result: none}
+  - {registry: rubygems, endpoint: 'https://rubygems.org/api/v1/search.json?query=fmcs', total: 0, result: none}
+  - {registry: crates.io, endpoint: 'https://crates.io/api/v1/crates?q=fmcs', total: 1, result: 'one unrelated crate (rdkit-rs); no FMCS crate'}
+  - {registry: nuget, endpoint: 'https://azuresearch-usnc.nuget.org/query?q=fmcs', total: 0, result: none}
+  - {registry: packagist, endpoint: 'https://packagist.org/search.json?q=fmcs', total: 107, result: 'substring matches only (fmcsa-safer-api is the Motor Carrier Safety Administration, a different agency); no FMCS-authored package'}
+third_party_redistribution:
+  note: >-
+    NOT an FMCS package and not counted above. It is recorded because it is the market's answer to the gap
+    this record documents: FMCS publishes its most valuable dataset — the monthly F-7 collective bargaining
+    notices — only as Excel workbooks, so a third party rebuilds it into a queryable database nightly.
+  projects:
+    - name: labordata/fmcs-f7
+      url: https://github.com/labordata/fmcs-f7
+      status: 200
+      official: false
+      version: null
+      published: null
+      registry: null
+      formats: [sqlite, csv]
+      hosted_query_endpoint: https://labordata.bunkum.us/f7
+      coverage: 1997 to present
+      refresh: 'nightly, about 22:00 US/Eastern — although FMCS itself only publishes monthly'
+      note: >-
+        `version: null` / `published: null` recorded deliberately: this project is distributed as a GitHub
+        repository and a Datasette instance, not through any package registry, so there is no registry
+        metadata endpoint to read a version or release date from.
+github_org:
+  candidate: https://github.com/fmcs
+  status: rejected
+  evidence:
+    url: https://github.com/fmcs
+    status: 200
+    public_repos: 0
+    description: null
+    linked_from_fmcs_gov: false
+  reason: >-
+    The github.com/fmcs account exists but shows no public repositories, no description, no website and no
+    verified-organization badge, and it is not linked from any fmcs.gov page. Attributing it to the Federal
+    Mediation and Conciliation Service would be a guess, so no GitHubOrganization pointer is wired.

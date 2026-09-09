@@ -1,0 +1,159 @@
+generated: '2026-09-09'
+method: derived
+source: >-
+  openapi/federal-mediation-and-conciliation-service-wp-content-openapi.yml plus the live record shapes
+  saved in examples/ (posts, pages, media, events, categories, faq-categories, types, taxonomies, search),
+  read 2026-09-09
+note: >-
+  The entity graph of FMCS's public content API. Derived from real records, the registered type and
+  taxonomy documents, and the _links relations each record carries — not from documentation, because FMCS
+  publishes none. Identifiers are integers, not prefixed strings.
+identifiers:
+  style: integer
+  note: >-
+    Every entity is keyed by a plain WordPress integer id, and ids are shared across post types (a post, a
+    page, a media item, an event and a directory listing all draw from the same id space, so an id alone
+    does not tell you what it is — the `type` field does). Term ids are a separate space and are not
+    sequential from 1: the eight categories in use are 1, 63-67, 383 and 523.
+entities:
+  - name: Post
+    rest_base: /wp/v2/posts
+    operations: [listPosts, getPost]
+    count_observed: 57
+    description: >-
+      A site post. On this site the collection is dominated by the agency's historical timeline entries
+      rather than by news; the newest record is dated December 2020.
+    fields: [id, date, date_gmt, modified, modified_gmt, slug, status, type, link, title, content, excerpt, author, featured_media, categories, tags, sticky, format, meta, class_list, guid, comment_status, ping_status, template]
+  - name: Page
+    rest_base: /wp/v2/pages
+    operations: [listPages, getPage]
+    count_observed: 117
+    description: >-
+      A structural site page — Services, Arbitration, Forms & Applications, Documents and Data, FOIA, Data,
+      About Us, the regional office pages, the Vulnerability Disclosure Policy. This is FMCS's programme
+      documentation, and the only machine-readable index of it that exists.
+    fields: [id, date, modified, modified_gmt, slug, status, type, link, title, content, excerpt, author, featured_media, parent, menu_order, meta, template]
+    notable_fields:
+      - {field: parent, note: 'Page hierarchy — the resources/ and aboutus/ trees are reconstructable from this alone.'}
+      - {field: menu_order, note: 'Site navigation ordering.'}
+  - name: Media
+    rest_base: /wp/v2/media
+    operations: [listMedia, getMedia]
+    count_observed: 1122
+    description: >-
+      The uploaded document library. THE MOST USEFUL ENTITY ON THIS API: the monthly F-7 collective
+      bargaining notice workbooks, FOIA logs and annual reports, arbitrator per-diem rate sheets, financial
+      audit reports and programme one-pagers are all records here.
+    fields: [id, date, date_gmt, modified, modified_gmt, slug, status, type, link, title, author, media_type, mime_type, source_url, filename, filesize, media_details, post, alt_text, caption, description, meta, template]
+    notable_fields:
+      - {field: source_url, note: 'The direct file URL under /wp-content/uploads/ — this is the actual download link, no redirect indirection.'}
+      - {field: mime_type, note: 'Filterable. application/vnd.openxmlformats-officedocument.spreadsheetml.sheet isolates the F-7 and FOIA workbooks; application/pdf isolates the reports.'}
+      - {field: filesize, note: 'Byte size, returned directly — unusual and useful for a bulk harvester.'}
+      - {field: post, note: 'The page or post the file is attached to, if any. Links a workbook back to the page that publishes it.'}
+  - name: DirectoryListing
+    rest_base: /wp/v2/wpbdp_listing
+    operations: [listDirectoryListings, getDirectoryListing]
+    count_observed: 121
+    personal_data: true
+    description: >-
+      The Business Directory Plugin listing type used for FMCS's published neutrals directory. Each record's
+      title is a person's surname and `link` resolves to that person's page. The listing detail (contact,
+      region, specialisms) lives in plugin tables the REST projection does not expose, so `content` is
+      empty — the API tells you WHO is listed and nothing else.
+    fields: [id, date, modified, slug, status, type, link, title, content, excerpt, author, featured_media, wpbdp_category, wpbdp_tag, meta, template]
+    note: >-
+      No example response is stored for this entity and no agent skill or MCP tool is bound to it; see the
+      personal-data note in skills/_index.yml.
+  - name: Event
+    rest_base: /wp/v2/event
+    operations: [listEvents, getEvent]
+    count_observed: 3
+    description: FMCS training and convening announcements — Mediation Skills Training, Shared Neutrals Training, the NLMC Conference.
+    fields: [id, date, date_gmt, modified, modified_gmt, slug, status, type, link, title, content, categories, tags, featured_media, template]
+  - name: Faq
+    rest_base: /wp/v2/avada_faq
+    operations: [listFaqs]
+    count_observed: 0
+    description: >-
+      The FAQ post type the FMCS service taxonomy classifies. Live route, zero published records on
+      2026-09-09 — the FAQ content rendered at /resources/faqs/ does not come through this collection.
+    fields: []
+  - name: Category
+    rest_base: /wp/v2/categories
+    operations: [listCategories, getCategory]
+    count_observed: 8
+    description: 'The `category` taxonomy on posts: news plus the six agency-history timeline bands.'
+    fields: [id, count, description, link, name, slug, taxonomy, parent, meta]
+  - name: Tag
+    rest_base: /wp/v2/tags
+    operations: [listTags, getTag]
+    count_observed: 12
+    description: The `post_tag` taxonomy.
+    fields: [id, count, description, link, name, slug, taxonomy, meta]
+  - name: FaqCategory
+    rest_base: /wp/v2/faq_category
+    operations: [listFaqCategories, getFaqCategory]
+    count_observed: 17
+    description: >-
+      THE MOST INTERESTING TAXONOMY ON THIS API. Seventeen terms that enumerate FMCS's service lines —
+      arbitration, collective-bargaining-mediation, grievance-mediation, workplace-mediation, facilitation,
+      dispute-resolution-systems-design, regulatory-negotiations, public-policy-dialogues,
+      labor-management-partnership, organizational-development, alternative-bargaining-processes,
+      effective-contract-administration, repairing-broken-relationships, administrative-program-dispute,
+      notices-and-filings, shared-neutrals, grant. Every term currently has count 0 because the FAQ post
+      type is empty, so this is a service vocabulary with nothing classified against it.
+    fields: [id, count, description, link, name, slug, taxonomy, parent, meta]
+  - name: EspressoEventCategory
+    rest_base: /wp/v2/espresso_event_categories
+    operations: [listEspressoEventCategories, getEspressoEventCategory]
+    count_observed: 20
+    description: Event Espresso registration categories for FMCS training.
+    fields: [id, count, description, link, name, slug, taxonomy, parent, meta]
+  - name: EspressoEventType
+    rest_base: /wp/v2/espresso_event_type
+    operations: [listEspressoEventTypes, getEspressoEventType]
+    count_observed: 5
+    description: Event Espresso event types.
+    fields: [id, count, description, link, name, slug, taxonomy, parent, meta]
+  - name: Author
+    rest_base: /wp/v2/users
+    operations: [listAuthors, getAuthor]
+    count_observed: 6
+    personal_data: true
+    description: >-
+      The public author accounts that have published content. WordPress exposes display name, slug,
+      description and author-archive link anonymously.
+    fields: [id, name, slug, description, link, url, avatar_urls, meta]
+    note: No example response is stored and no agent skill or MCP tool is bound to this entity.
+  - name: SearchResult
+    rest_base: /wp/v2/search
+    operations: [search]
+    description: A lightweight cross-type hit. Deliberately thin — resolve the id against its collection for the full record.
+    fields: [id, title, url, type, subtype]
+relationships:
+  - {from: Post, to: Category, kind: has_many, via: categories, note: 'array of term ids'}
+  - {from: Post, to: Tag, kind: has_many, via: tags}
+  - {from: Post, to: Author, kind: belongs_to, via: author}
+  - {from: Post, to: Media, kind: has_one, via: featured_media}
+  - {from: Page, to: Page, kind: belongs_to, via: parent, note: 'self-referential page hierarchy'}
+  - {from: Page, to: Author, kind: belongs_to, via: author}
+  - {from: Media, to: Page, kind: belongs_to, via: post, note: 'the page or post the file is attached to; 0 when unattached'}
+  - {from: Media, to: Author, kind: belongs_to, via: author}
+  - {from: Event, to: Category, kind: has_many, via: categories}
+  - {from: Event, to: Tag, kind: has_many, via: tags}
+  - {from: DirectoryListing, to: DirectoryCategory, kind: has_many, via: wpbdp_category, note: 'taxonomy currently empty — 0 terms registered against 121 listings'}
+  - {from: DirectoryListing, to: DirectoryTag, kind: has_many, via: wpbdp_tag, note: 'taxonomy currently empty'}
+  - {from: Faq, to: FaqCategory, kind: has_many, via: faq_category, note: 'binding declared in /wp/v2/types; no records on either side'}
+  - {from: Category, to: Category, kind: belongs_to, via: parent}
+  - {from: FaqCategory, to: FaqCategory, kind: belongs_to, via: parent}
+hypermedia:
+  note: >-
+    Every record carries a _links object (self, collection, about, author, wp:attachment, wp:term, curies)
+    using the working /wp-json/ base, so the whole graph above is walkable from https://www.fmcs.gov/wp-json/
+    without this document. The relationships are recorded here because the ids are more useful than the
+    links for bulk work.
+orphans:
+  note: >-
+    Three registered taxonomies have zero terms (wpbdp_category, wpbdp_tag) or zero classified records
+    (faq_category, 17 terms and 0 posts). They are documented rather than dropped because they are the
+    shape of a content model FMCS built and did not populate — a real finding about the site, not noise.

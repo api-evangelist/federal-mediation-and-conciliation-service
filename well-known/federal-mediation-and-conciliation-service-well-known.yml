@@ -1,0 +1,83 @@
+generated: '2026-09-09'
+method: probed
+source: live GET of the named /.well-known/ path list on every host this record knows
+summary: >-
+  Nothing is served. Every named path returns a real HTTP 404 on all three hosts — www.fmcs.gov, fmcs.gov
+  and arbitration.fmcs.gov. The 404s are honest (a negative-control path that cannot exist also returns
+  404, so none of these hosts is a catch-all), but the body is a 1.37 MB themed HTML page rather than a
+  short error, which is worth knowing before byte-comparing responses. No security.txt, no api-catalog, no
+  apis.json, no OIDC or OAuth metadata, no agent card, no llms.txt, no AAuth resource.
+  NO WellKnown, SecurityTxt or AgentCard pointer is wired in apis.yml, because none of these documents
+  exists. Recorded as an absence so a later sweep can show movement.
+hit_count: 0
+path_echo_control: passed
+soft_404_control:
+  path: /.well-known/federal-mediation-and-conciliation-service-negative-control-7f3ab91c.json
+  host: www.fmcs.gov
+  status: 404
+  content_type: 'text/html; charset=UTF-8'
+  bytes: 1369451
+  note: >-
+    A path that cannot exist returns a correct 404, so no 2xx on this host would be a catch-all artefact.
+    The host is honest about misses; it is simply verbose about them.
+notes:
+  - >-
+    NOTABLE ABSENCE — security.txt. CISA Binding Operational Directive 20-01 directs federal civilian
+    executive branch agencies to publish a vulnerability disclosure policy and to make it discoverable at
+    /.well-known/security.txt. FMCS has done the harder half and skipped the easy half: it publishes a full
+    VDP at https://www.fmcs.gov/vulnerability-disclosure-policy/ (HTTP 200, naming security@fmcs.gov and a
+    90-day coordinated-disclosure window) but serves no security.txt pointing at it. A machine looking for
+    the policy at the standard location finds nothing. This is a one-file fix on the provider's side.
+  - >-
+    arbitration.fmcs.gov is an ASP.NET WebForms application that answers unknown paths with a 1,245-byte
+    error page. /Service.asmx?wsdl returns HTTP 200 but the body is that same ASP.NET error page, not a
+    WSDL — a control request to a service name that cannot exist returns the identical 200. No SOAP
+    contract is published; see the wsdl note in lifecycle/.
+hosts:
+  - host: https://www.fmcs.gov
+    documents:
+      - {path: /.well-known/security.txt, status: 404, file: null}
+      - {path: /.well-known/openid-configuration, status: 404, file: null}
+      - {path: /.well-known/oauth-authorization-server, status: 404, file: null}
+      - {path: /.well-known/oauth-protected-resource, status: 404, file: null}
+      - {path: /.well-known/api-catalog, status: 404, file: null}
+      - {path: /.well-known/api-catalog.json, status: 404, file: null}
+      - {path: /.well-known/ai-plugin.json, status: 404, file: null}
+      - {path: /.well-known/ucp.json, status: 404, file: null}
+      - {path: /.well-known/acp.json, status: 404, file: null}
+      - {path: /.well-known/aauth-resource.json, status: 404, file: null}
+      - {path: /.well-known/apis.json, status: 404, file: null}
+      - {path: /apis.json, status: 404, file: null}
+      - {path: /apis.yml, status: 404, file: null}
+      - {path: /.well-known/agent-card.json, status: 404, file: null}
+      - {path: /.well-known/agent.json, status: 404, file: null}
+      - {path: /llms.txt, status: 404, file: null}
+  - host: https://fmcs.gov
+    documents:
+      - {path: /.well-known/security.txt, status: 404, file: null}
+      - {path: /.well-known/openid-configuration, status: 404, file: null}
+      - {path: /.well-known/oauth-authorization-server, status: 404, file: null}
+      - {path: /.well-known/oauth-protected-resource, status: 404, file: null}
+      - {path: /.well-known/api-catalog, status: 404, file: null}
+      - {path: /.well-known/api-catalog.json, status: 404, file: null}
+      - {path: /.well-known/ai-plugin.json, status: 404, file: null}
+      - {path: /.well-known/ucp.json, status: 404, file: null}
+      - {path: /.well-known/acp.json, status: 404, file: null}
+      - {path: /.well-known/aauth-resource.json, status: 404, file: null}
+      - {path: /.well-known/apis.json, status: 404, file: null}
+      - {path: /apis.json, status: 404, file: null}
+      - {path: /apis.yml, status: 404, file: null}
+      - {path: /.well-known/agent-card.json, status: 404, file: null}
+      - {path: /.well-known/agent.json, status: 404, file: null}
+      - {path: /llms.txt, status: 404, file: null}
+  - host: https://arbitration.fmcs.gov
+    documents:
+      - {path: /.well-known/security.txt, status: 404, file: null}
+      - {path: /.well-known/openid-configuration, status: 404, file: null}
+      - {path: /.well-known/oauth-authorization-server, status: 404, file: null}
+      - {path: /.well-known/oauth-protected-resource, status: 404, file: null}
+      - {path: /.well-known/api-catalog, status: 404, file: null}
+      - {path: /.well-known/agent-card.json, status: 404, file: null}
+      - {path: /.well-known/agent.json, status: 404, file: null}
+      - {path: /apis.json, status: 404, file: null}
+      - {path: /llms.txt, status: 404, file: null}

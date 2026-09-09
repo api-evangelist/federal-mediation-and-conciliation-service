@@ -1,0 +1,76 @@
+generated: '2026-09-09'
+method: probed
+source: >-
+  live error responses observed anonymously against https://www.fmcs.gov/wp-json/ on 2026-09-09, plus the
+  4xx responses declared in openapi/federal-mediation-and-conciliation-service-wp-content-openapi.yml
+format: wordpress-rest
+rfc9457: false
+media_type: application/json
+note: >-
+  FMCS publishes no error reference. Every entry below was produced by an actual anonymous request and the
+  body is recorded verbatim. The envelope is WordPress's, not RFC 9457 — there is no `type` URI, no
+  `title`/`detail` split and no application/problem+json media type, so a client written against RFC 9457
+  will not parse these. The machine-readable discriminator is the string `code`, not the HTTP status.
+envelope:
+  fields:
+    - {name: code, type: string, description: 'Machine-readable error code, e.g. rest_invalid_param.'}
+    - {name: message, type: string, description: 'Human-readable message.'}
+    - {name: data.status, type: integer, description: 'The HTTP status, repeated inside the body.'}
+    - {name: data.params, type: object, description: 'Present on rest_invalid_param: offending parameter name to explanation.'}
+    - {name: data.details, type: object, description: 'Present on rest_invalid_param: per-parameter code/message/data detail.'}
+problems:
+  - code: rest_invalid_param
+    status: 400
+    title: A query parameter failed validation
+    remediation: >-
+      Read data.params for the offending parameter and the accepted range. The most common cause is
+      per_page above 100.
+    observed:
+      url: 'https://www.fmcs.gov/wp-json/wp/v2/posts?per_page=999'
+      body: '{"code":"rest_invalid_param","message":"Invalid parameter(s): per_page","data":{"status":400,"params":{"per_page":"per_page must be between 1 (inclusive) and 100 (inclusive)"}}}'
+      date: '2026-09-09'
+  - code: rest_forbidden
+    status: 401
+    title: The route requires authentication
+    remediation: >-
+      Not fixable by a public client. The route is part of the site's administrative surface and is not
+      offered to the public; use the read collections instead.
+    observed:
+      url: 'https://www.fmcs.gov/wp-json/wp/v2/settings'
+      body: '{"code":"rest_forbidden","message":"Sorry, you are not allowed to do that.","data":{"status":401}}'
+      date: '2026-09-09'
+    also_observed_on: ['/wp/v2/block-types']
+  - code: rest_comment_disabled
+    status: 403
+    title: Comments are disabled
+    remediation: >-
+      No action. FMCS has comments switched off site-wide; the /wp/v2/comments collection exists in the
+      route index but will never return records.
+    observed:
+      url: 'https://www.fmcs.gov/wp-json/wp/v2/comments'
+      body: '{"code":"rest_comment_disabled","message":"Comments are disabled.","data":{"status":403}}'
+      date: '2026-09-09'
+  - code: rest_post_invalid_id
+    status: 404
+    title: The record does not exist or is not public
+    remediation: >-
+      Confirm the id from a collection listing first. Ids are shared across post types, so an id valid for
+      one collection is usually invalid for another.
+    observed:
+      url: 'https://www.fmcs.gov/wp-json/wp/v2/posts/999999999'
+      body: '{"code":"rest_post_invalid_id","message":"Invalid post ID.","data":{"status":404}}'
+      date: '2026-09-09'
+  - code: rest_no_route
+    status: 404
+    title: No route matches the requested path and method
+    remediation: 'Check the path against the route discovery document at https://www.fmcs.gov/wp-json/ .'
+    observed: null
+    note: >-
+      Platform-standard WordPress error. Not reproduced live in this pass because the FMCS site theme
+      intercepts unmatched top-level paths with an HTML 404 page before the REST router is reached.
+html_404_note: >-
+  IMPORTANT FOR CRAWLERS. Outside /wp-json/, www.fmcs.gov answers unknown paths with a correct HTTP 404
+  status but a full 1.37 MB themed HTML page. The status code is honest — this is not a soft-404 — but any
+  client that byte-compares responses will see near-identical bodies for every miss. A negative-control
+  path (/.well-known/federal-mediation-and-conciliation-service-negative-control-7f3ab91c.json) returned
+  404 on 2026-09-09, confirming the host is not a catch-all.

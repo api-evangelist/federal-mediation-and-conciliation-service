@@ -1,58 +1,172 @@
 aid: federal-mediation-and-conciliation-service
 name: Federal Mediation and Conciliation Service
 description: >-
-  The Federal Mediation and Conciliation Service (FMCS) provides mediation and
-  other conflict resolution services for managing and enhancing labor-management
-  relationships.
+  The Federal Mediation and Conciliation Service (FMCS) is an independent United States federal agency
+  created by the Taft-Hartley Act of 1947 to prevent, minimize and resolve work stoppages and labor
+  disputes. It provides collective bargaining mediation, grievance and workplace mediation, arbitrator
+  panel referral, facilitation, dispute-resolution systems design, regulatory negotiations and labor-
+  management partnership services across seventeen published service lines. FMCS also administers the
+  statutory F-7 notice under 29 U.S.C. 158(d) and publishes those notices monthly as Excel workbooks.
+  FMCS publishes no developer programme and no specification of its own; its public website runs on
+  WordPress and serves an anonymous, read-only REST API at https://www.fmcs.gov/wp-json over the
+  agency's pages, document library, neutrals directory, training events and service taxonomy, which is
+  catalogued here.
 type: Index
 deliveryModel:
-  model: unknown
+  model: hosted-api
   open_source: false
   commercial: false
-  callable_host: false
-  label: Delivery model not determined — needs a product licence on record
-  confidence: low
+  callable_host: true
+  label: Government-hosted public content API — callable, free, no commercial offering
+  confidence: medium
+  generated: '2026-09-09'
+  method: probed
   source:
-  - none
-  generated: '2026-08-28'
-  method: derived
+  - url: https://www.fmcs.gov/wp-json/
+    status: 200
+    note: WordPress REST route discovery document, 1,020 routes, served anonymously
 accessModel:
-  pricing: unknown
-  onboarding: unknown
+  pricing: free
+  onboarding: none
   trial: false
-  try_now: false
-  public: false
-  label: Unknown
-  confidence: low
-  source: []
-  generated: '2026-07-22'
-  method: derived
+  try_now: true
+  public: true
+  label: Free and open — anonymous, unauthenticated public read API; no signup, no key, no plans
+  confidence: medium
+  generated: '2026-09-09'
+  method: probed
+  source:
+  - url: https://www.fmcs.gov/wp-json/wp/v2/posts?per_page=1
+    status: 200
+    note: returns JSON anonymously with no credential of any kind (probed 2026-09-09)
+  - url: https://www.fmcs.gov/wp-json/wp/v2/settings
+    status: 401
+    note: the administrative half of the same host refuses anonymous callers (rest_forbidden)
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/federal-mediation-and-conciliation-service.png
 access: 3rd-Party
 created: '2024-12-03'
-modified: '2026-04-28'
-position: Consuming
+modified: '2026-09-09'
+position: Producing
 tags:
   - Federal-Government
   - Labor
+  - Mediation
+  - Arbitration
+  - Dispute-Resolution
+  - Government
+  - Public-Sector
+  - Content
 tags_raw:
   - Federal Government
   - Labor
+  - Mediation
+  - Arbitration
+  - Dispute Resolution
+  - Government
+  - Public Sector
+  - Content
 url: >-
   https://raw.githubusercontent.com/api-evangelist/federal-mediation-and-conciliation-service/refs/heads/main/apis.yml
 specificationVersion: '0.23'
-apis: []
+apis:
+  - aid: federal-mediation-and-conciliation-service:fmcs-public-content-api
+    name: FMCS Public Content API
+    description: >-
+      The anonymous, read-only WordPress REST API behind www.fmcs.gov. Serves the agency's 117 programme
+      and services pages, its 1,122-item document library (where the monthly F-7 collective bargaining
+      notice workbooks, FOIA logs and annual reports, arbitrator per-diem rate sheets and financial audit
+      reports actually live), its posts and historical timeline, its published neutrals directory, its
+      training events, and the seventeen-term taxonomy that enumerates FMCS's service lines. DERIVED
+      description — FMCS publishes no specification; the OpenAPI here was derived from the live route
+      discovery document at https://www.fmcs.gov/wp-json/ and all 31 operations were confirmed HTTP 200
+      anonymously on 2026-09-09. Content only — this is not a case-management, arbitration or F-7 filing
+      API; those systems are login-gated and publish no contract.
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/federal-mediation-and-conciliation-service.png
+    humanURL: https://www.fmcs.gov/resources/documents-and-data/
+    baseURL: https://www.fmcs.gov/wp-json
+    tags:
+      - Government
+      - Labor
+      - Content
+      - Documents
+      - Dispute-Resolution
+    properties:
+      - type: OpenAPI
+        url: openapi/federal-mediation-and-conciliation-service-wp-content-openapi.yml
+      - type: Overlay
+        url: overlays/federal-mediation-and-conciliation-service-wp-content-overlay.yaml
+      - type: Examples
+        url: examples/federal-mediation-and-conciliation-service-posts.json
+      - type: Examples
+        url: examples/federal-mediation-and-conciliation-service-pages.json
+      - type: Examples
+        url: examples/federal-mediation-and-conciliation-service-media.json
+      - type: Examples
+        url: examples/federal-mediation-and-conciliation-service-events.json
+      - type: Examples
+        url: examples/federal-mediation-and-conciliation-service-categories.json
+      - type: Examples
+        url: examples/federal-mediation-and-conciliation-service-faq-categories.json
+      - type: Examples
+        url: examples/federal-mediation-and-conciliation-service-types.json
+      - type: Examples
+        url: examples/federal-mediation-and-conciliation-service-taxonomies.json
+      - type: Examples
+        url: examples/federal-mediation-and-conciliation-service-search.json
 common:
+  - type: OpenAPI
+    url: openapi/federal-mediation-and-conciliation-service-wp-content-openapi.yml
+  - type: Overlay
+    url: overlays/federal-mediation-and-conciliation-service-wp-content-overlay.yaml
+  - type: Authentication
+    url: authentication/federal-mediation-and-conciliation-service-authentication.yml
+  - type: Conventions
+    url: conventions/federal-mediation-and-conciliation-service-conventions.yml
+  - type: ErrorCatalog
+    url: errors/federal-mediation-and-conciliation-service-problem-types.yml
+  - type: Lifecycle
+    url: lifecycle/federal-mediation-and-conciliation-service-lifecycle.yml
+  - type: Conformance
+    url: conformance/federal-mediation-and-conciliation-service-conformance.yml
+  - type: DataModel
+    url: data-model/federal-mediation-and-conciliation-service-data-model.yml
+  - type: RateLimits
+    url: rate-limits/federal-mediation-and-conciliation-service-rate-limits.yml
+  - type: Plans
+    url: plans/federal-mediation-and-conciliation-service-plans-pricing.yml
+  - type: Packages
+    url: packages/federal-mediation-and-conciliation-service-packages.yml
+  - type: X-MCPServerCandidate
+    url: mcp/federal-mediation-and-conciliation-service-mcp.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: LLMsTxt
+    url: llms/federal-mediation-and-conciliation-service-llms.txt
+  - type: AgenticAccess
+    url: agentic-access/federal-mediation-and-conciliation-service-agentic-access.yml
   - type: VulnerabilityDisclosure
     url: security/federal-mediation-and-conciliation-service-vulnerability-disclosure.yml
+  - type: Security
+    url: https://www.fmcs.gov/vulnerability-disclosure-policy/
   - type: DomainSecurity
     url: security/federal-mediation-and-conciliation-service-domain-security.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/federal-mediation-and-conciliation-service
   - type: Website
     url: https://www.fmcs.gov/
-  - url: https://www.fmcs.gov/feed/
-    type: Blog
+  - type: Blog
+    url: https://www.fmcs.gov/feed/
+  - type: Support
+    url: https://www.fmcs.gov/contact-us/
+  - type: TermsOfService
+    url: https://www.fmcs.gov/terms-of-use/
+  - type: PrivacyPolicy
+    url: https://www.fmcs.gov/privacy-policy/
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+x-enrichment:
+  date: '2026-09-09'
+  status: enriched
+  artifacts_added: 28
+  pass: local-v3

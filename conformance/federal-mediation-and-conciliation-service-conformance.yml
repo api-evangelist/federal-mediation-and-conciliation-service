@@ -1,0 +1,123 @@
+generated: '2026-09-09'
+method: probed
+source: >-
+  openapi/federal-mediation-and-conciliation-service-wp-content-openapi.yml, the verbatim route index, and
+  live response headers observed 2026-09-09
+note: >-
+  Cross-cutting standards the catalogued surface does and does not conform to. Reward-only: a standard the
+  provider's market does not have is not a penalty, and nothing here is asserted without a location in the
+  contract or a live response to point at.
+standards:
+  - id: rest
+    conforms: true
+    evidence: Resource-oriented JSON over HTTPS with GET semantics; collection and item routes throughout.
+  - id: rfc8288-web-linking
+    conforms: true
+    evidence: 'Link header carries rel="next" on paginated collections (observed on /wp/v2/posts?per_page=1).'
+  - id: oembed-1.0
+    conforms: true
+    evidence: 'The oembed/1.0 namespace is registered in the route index and /oembed/1.0/embed returns an oEmbed 1.0 document (200, verified 2026-09-09).'
+  - id: hal-style-hypermedia
+    conforms: true
+    evidence: >-
+      Every record carries a _links object with self/collection/about/author/wp:term/curies, and on this
+      host the link values use the working /wp-json/ base, so the surface is followable from the root.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: 'Errors are application/json in the WordPress envelope {code, message, data.status}; no application/problem+json is served.'
+  - id: rfc6750-bearer
+    conforms: false
+    evidence: No bearer scheme on the public surface; the platform advertises HTTP Basic application passwords for administrators only.
+  - id: oauth2
+    conforms: false
+    evidence: 'No oauth2 security scheme; /.well-known/oauth-authorization-server returns 404 on every host.'
+  - id: oidc
+    conforms: false
+    evidence: '/.well-known/openid-configuration returns 404 on every host; no OIDC discovery document.'
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: >-
+      /.well-known/security.txt returns 404 on www.fmcs.gov, fmcs.gov and arbitration.fmcs.gov, even though
+      FMCS publishes a full vulnerability disclosure policy as an HTML page. See well-known/.
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: No Sunset or Deprecation headers on any observed response.
+  - id: rfc9239-ratelimit-headers
+    conforms: false
+    evidence: No RateLimit-* or X-RateLimit-* headers on any observed response.
+  - id: apis-json
+    conforms: false
+    evidence: '/apis.json, /apis.yml and /.well-known/apis.json all return 404 on both website hosts.'
+  - id: openapi
+    conforms: false
+    evidence: >-
+      FMCS publishes no OpenAPI. The specification in this repo was DERIVED by API Evangelist from the live
+      route discovery document and is marked as such; it is not an FMCS conformance claim.
+  - id: asyncapi
+    conforms: false
+    evidence: No event, streaming or webhook surface exists to describe. See lifecycle/change_signal.
+  - id: mcp
+    conforms: false
+    evidence: No MCP server is published; the manifest in mcp/ is a candidate, not a server.
+  - id: a2a
+    conforms: false
+    evidence: 'No agent card at /.well-known/agent-card.json or /.well-known/agent.json on any host (404).'
+  - id: sitemaps-0.9
+    conforms: true
+    evidence: 'https://www.fmcs.gov/sitemap_index.xml is a valid sitemapindex naming 10 child sitemaps (200, verified 2026-09-09).'
+  - id: rss-2.0
+    conforms: true
+    evidence: >-
+      https://www.fmcs.gov/feed/ returns a valid RSS 2.0 document (200, verified 2026-09-09), though it
+      carries only 10 items and the newest is dated 2020 — see lifecycle/.
+  - id: hsts-preload
+    conforms: true
+    evidence: 'Strict-Transport-Security: max-age=63072000; includeSubDomains; preload on every response.'
+  - id: dnssec
+    conforms: true
+    evidence: 'fmcs.gov publishes DS records (3 delegations, algorithms 8 and 13); see security/federal-mediation-and-conciliation-service-domain-security.yml.'
+domain_standards:
+  note: >-
+    Labour dispute resolution has no machine-readable interchange standard the way healthcare has FHIR or
+    banking has ISO 20022. The nearest thing to a domain schema FMCS owns is the F-7 collective bargaining
+    notice — a statutory filing under 29 U.S.C. 158(d) with a fixed, documented column layout — and it is
+    published as monthly Excel workbooks with a separate file-layout document, not as a schema. REWARD-ONLY:
+    no domain standard exists for this market, so nothing is deducted; the entry below records the shape
+    that DOES exist so a future pass can tell whether FMCS ever schematises it.
+  standards:
+    - id: fmcs-f7-notice
+      name: Notice to FMCS of Upcoming Collective Bargaining (Form F-7)
+      authored_by_this_provider: true
+      machine_readable: false
+      conforms: false
+      evidence: >-
+        Published monthly as .xlsx workbooks under /wp-content/uploads/ with a prose file-layout document.
+        No JSON Schema, no XSD, no CSV schema, no API. The workbooks are reachable through the media
+        collection of the catalogued API (listMedia), but only as binary attachments.
+      references:
+        - {url: 'https://www.fmcs.gov/resources/documents-and-data/', status: 200}
+        - {url: 'https://www.fmcs.gov/wp-content/uploads/2026/08/July-2026-F7-Notices.xlsx', note: 'most recent workbook linked at time of harvest'}
+compliance_program:
+  published: false
+  certifications: []
+  trust_center: null
+  note: >-
+    FMCS publishes no trust centre, no certification list and no compliance programme page — it is a small
+    independent federal agency, not a vendor, and is governed by statute and OMB/CISA directives rather than
+    by third-party audit certificates. Probed trust.fmcs.gov and security.fmcs.gov (no DNS) and the site
+    navigation. No Compliance or TrustCenter pointer is wired, because no such published programme exists.
+vulnerability_disclosure:
+  published: true
+  url: https://www.fmcs.gov/vulnerability-disclosure-policy/
+  status: 200
+  contact: security@fmcs.gov
+  coordinated_disclosure_window_days: 90
+  policy_dated: '2021-02-26'
+  bug_bounty: false
+  note: >-
+    A genuine, complete CISA BOD 20-01-style policy: scope, authorisation, safe-harbour language, a named
+    contact and a 90-day disclosure request. It is published as an HTML page only — there is no
+    /.well-known/security.txt pointing at it. A Security pointer IS wired in apis.yml on this evidence.
+  evidence:
+    - {url: 'https://www.fmcs.gov/vulnerability-disclosure-policy/', status: 200, checked: '2026-09-09'}
+    - {url: 'https://www.fmcs.gov/.well-known/security.txt', status: 404, checked: '2026-09-09'}

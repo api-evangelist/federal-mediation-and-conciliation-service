@@ -1,0 +1,42 @@
+generated: '2026-09-09'
+method: probed
+source: live response headers from https://www.fmcs.gov/wp-json/wp/v2/posts (2026-09-09)
+limit_count: 0
+note: >-
+  FMCS documents no rate limits, and the API returns no rate-limit signalling of any kind. A live
+  unauthenticated response carries no X-RateLimit-*, no RateLimit-* (RFC 9239 draft), no Retry-After and no
+  quota header. There is no developer portal or terms page stating a call ceiling. An agent has no runtime
+  signal to back off on. The site's robots.txt sets no crawl-delay either — it is a bare Yoast block that
+  disallows nothing — so there is no published pacing guidance of any kind. Recorded as an explicit zero
+  rather than omitted, so the absence is data.
+limits: []
+response_headers:
+  rate_limit_headers_present: false
+  observed:
+    - {header: X-WP-Total, value: '57', note: 'pagination, not rate limiting'}
+    - {header: X-WP-TotalPages, value: '57', note: 'pagination, not rate limiting'}
+    - {header: Link, note: 'RFC 8288 rel="next" / rel="prev"'}
+    - {header: 'Cache-Control', value: 'no-store, no-cache, must-revalidate'}
+    - {header: 'Allow', value: 'GET'}
+    - {header: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload'}
+  absent: [X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset, Retry-After]
+exhaustion_status: unknown
+pagination_ceiling:
+  parameter: per_page
+  min: 1
+  max: 100
+  default: 10
+  evidence:
+    url: 'https://www.fmcs.gov/wp-json/wp/v2/posts?per_page=999'
+    status: 400
+    body: '{"code":"rest_invalid_param","message":"Invalid parameter(s): per_page","data":{"status":400,"params":{"per_page":"per_page must be between 1 (inclusive) and 100 (inclusive)"}}}'
+crawl_guidance:
+  source: https://www.fmcs.gov/robots.txt
+  status: 200
+  directives:
+    - {user_agent: '*', disallow: '', crawl_delay: null}
+  sitemap: https://www.fmcs.gov/sitemap_index.xml
+  note: 'Everything is allowed and no crawl-delay is set. FMCS states no API-specific limit anywhere.'
+evidence:
+  - {url: 'https://www.fmcs.gov/wp-json/wp/v2/posts?per_page=1', status: 200, checked: '2026-09-09'}
+  - {url: 'https://www.fmcs.gov/robots.txt', status: 200, checked: '2026-09-09'}

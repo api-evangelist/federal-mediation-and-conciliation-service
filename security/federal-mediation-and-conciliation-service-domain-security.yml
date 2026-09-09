@@ -1,4 +1,4 @@
-generated: '2026-07-11'
+generated: '2026-09-09'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
@@ -12,6 +12,6 @@ domains:
 - domain: fmcs.gov
   dnssec: true
   caa: []
-  spf: true
+  spf: false
   dmarc: true
   dmarc_policy: reject

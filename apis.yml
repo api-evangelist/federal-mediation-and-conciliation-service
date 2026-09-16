@@ -1,16 +1,14 @@
 aid: federal-mediation-and-conciliation-service
 name: Federal Mediation and Conciliation Service
-description: >-
-  The Federal Mediation and Conciliation Service (FMCS) is an independent United States federal agency
-  created by the Taft-Hartley Act of 1947 to prevent, minimize and resolve work stoppages and labor
+description: The Federal Mediation and Conciliation Service (FMCS) is an independent United States federal
+  agency created by the Taft-Hartley Act of 1947 to prevent, minimize and resolve work stoppages and labor
   disputes. It provides collective bargaining mediation, grievance and workplace mediation, arbitrator
   panel referral, facilitation, dispute-resolution systems design, regulatory negotiations and labor-
   management partnership services across seventeen published service lines. FMCS also administers the
   statutory F-7 notice under 29 U.S.C. 158(d) and publishes those notices monthly as Excel workbooks.
-  FMCS publishes no developer programme and no specification of its own; its public website runs on
-  WordPress and serves an anonymous, read-only REST API at https://www.fmcs.gov/wp-json over the
-  agency's pages, document library, neutrals directory, training events and service taxonomy, which is
-  catalogued here.
+  FMCS publishes no developer programme and no specification of its own; its public website runs on WordPress
+  and serves an anonymous, read-only REST API at https://www.fmcs.gov/wp-json over the agency's pages,
+  document library, neutrals directory, training events and service taxonomy, which is catalogued here.
 type: Index
 deliveryModel:
   model: hosted-api
@@ -45,126 +43,333 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/federal-mediation-and-conciliation-service.png
 access: 3rd-Party
 created: '2024-12-03'
-modified: '2026-09-09'
+modified: '2026-09-16'
 position: Producing
 tags:
-  - Federal-Government
-  - Labor
-  - Mediation
-  - Arbitration
-  - Dispute-Resolution
-  - Government
-  - Public-Sector
-  - Content
+- Federal-Government
+- Labor
+- Mediation
+- Arbitration
+- Dispute Resolution
+- Government
+- Public Sector
+- Content
 tags_raw:
-  - Federal Government
-  - Labor
-  - Mediation
-  - Arbitration
-  - Dispute Resolution
-  - Government
-  - Public Sector
-  - Content
-url: >-
-  https://raw.githubusercontent.com/api-evangelist/federal-mediation-and-conciliation-service/refs/heads/main/apis.yml
+- Federal Government
+- Labor
+- Mediation
+- Arbitration
+- Dispute Resolution
+- Government
+- Public Sector
+- Content
+url: https://raw.githubusercontent.com/api-evangelist/federal-mediation-and-conciliation-service/refs/heads/main/apis.yml
 specificationVersion: '0.23'
 apis:
-  - aid: federal-mediation-and-conciliation-service:fmcs-public-content-api
-    name: FMCS Public Content API
-    description: >-
-      The anonymous, read-only WordPress REST API behind www.fmcs.gov. Serves the agency's 117 programme
-      and services pages, its 1,122-item document library (where the monthly F-7 collective bargaining
-      notice workbooks, FOIA logs and annual reports, arbitrator per-diem rate sheets and financial audit
-      reports actually live), its posts and historical timeline, its published neutrals directory, its
-      training events, and the seventeen-term taxonomy that enumerates FMCS's service lines. DERIVED
-      description — FMCS publishes no specification; the OpenAPI here was derived from the live route
-      discovery document at https://www.fmcs.gov/wp-json/ and all 31 operations were confirmed HTTP 200
-      anonymously on 2026-09-09. Content only — this is not a case-management, arbitration or F-7 filing
-      API; those systems are login-gated and publish no contract.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/federal-mediation-and-conciliation-service.png
-    humanURL: https://www.fmcs.gov/resources/documents-and-data/
-    baseURL: https://www.fmcs.gov/wp-json
-    tags:
-      - Government
-      - Labor
-      - Content
-      - Documents
-      - Dispute-Resolution
-    properties:
-      - type: OpenAPI
-        url: openapi/federal-mediation-and-conciliation-service-wp-content-openapi.yml
-      - type: Overlay
-        url: overlays/federal-mediation-and-conciliation-service-wp-content-overlay.yaml
-      - type: Examples
-        url: examples/federal-mediation-and-conciliation-service-posts.json
-      - type: Examples
-        url: examples/federal-mediation-and-conciliation-service-pages.json
-      - type: Examples
-        url: examples/federal-mediation-and-conciliation-service-media.json
-      - type: Examples
-        url: examples/federal-mediation-and-conciliation-service-events.json
-      - type: Examples
-        url: examples/federal-mediation-and-conciliation-service-categories.json
-      - type: Examples
-        url: examples/federal-mediation-and-conciliation-service-faq-categories.json
-      - type: Examples
-        url: examples/federal-mediation-and-conciliation-service-types.json
-      - type: Examples
-        url: examples/federal-mediation-and-conciliation-service-taxonomies.json
-      - type: Examples
-        url: examples/federal-mediation-and-conciliation-service-search.json
-common:
+- aid: federal-mediation-and-conciliation-service:federal-mediation-and-conciliation-service-directory-api
+  name: Federal Mediation and Conciliation Service Directory API
+  description: The published neutrals directory and site author list. Personal data.
+  humanURL: https://www.fmcs.gov/resources/documents-and-data/
+  baseURL: https://www.fmcs.gov/wp-json
+  tags:
+  - Directory
+  properties:
   - type: OpenAPI
-    url: openapi/federal-mediation-and-conciliation-service-wp-content-openapi.yml
-  - type: Overlay
-    url: overlays/federal-mediation-and-conciliation-service-wp-content-overlay.yaml
-  - type: Authentication
-    url: authentication/federal-mediation-and-conciliation-service-authentication.yml
-  - type: Conventions
-    url: conventions/federal-mediation-and-conciliation-service-conventions.yml
-  - type: ErrorCatalog
-    url: errors/federal-mediation-and-conciliation-service-problem-types.yml
-  - type: Lifecycle
-    url: lifecycle/federal-mediation-and-conciliation-service-lifecycle.yml
-  - type: Conformance
-    url: conformance/federal-mediation-and-conciliation-service-conformance.yml
-  - type: DataModel
-    url: data-model/federal-mediation-and-conciliation-service-data-model.yml
-  - type: RateLimits
-    url: rate-limits/federal-mediation-and-conciliation-service-rate-limits.yml
-  - type: Plans
-    url: plans/federal-mediation-and-conciliation-service-plans-pricing.yml
-  - type: Packages
-    url: packages/federal-mediation-and-conciliation-service-packages.yml
-  - type: X-MCPServerCandidate
-    url: mcp/federal-mediation-and-conciliation-service-mcp.yml
-  - type: AgentSkill
-    url: skills/_index.yml
-  - type: LLMsTxt
-    url: llms/federal-mediation-and-conciliation-service-llms.txt
-  - type: AgenticAccess
-    url: agentic-access/federal-mediation-and-conciliation-service-agentic-access.yml
-  - type: VulnerabilityDisclosure
-    url: security/federal-mediation-and-conciliation-service-vulnerability-disclosure.yml
-  - type: Security
-    url: https://www.fmcs.gov/vulnerability-disclosure-policy/
-  - type: DomainSecurity
-    url: security/federal-mediation-and-conciliation-service-domain-security.yml
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/federal-mediation-and-conciliation-service
-  - type: Website
-    url: https://www.fmcs.gov/
-  - type: Blog
-    url: https://www.fmcs.gov/feed/
-  - type: Support
-    url: https://www.fmcs.gov/contact-us/
-  - type: TermsOfService
-    url: https://www.fmcs.gov/terms-of-use/
-  - type: PrivacyPolicy
-    url: https://www.fmcs.gov/privacy-policy/
+    url: openapi/federal-mediation-and-conciliation-service-directory-api-openapi.yml
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-posts.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-pages.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-media.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-events.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-categories.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-faq-categories.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-types.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-taxonomies.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-search.json
+- aid: federal-mediation-and-conciliation-service:federal-mediation-and-conciliation-service-discovery-api
+  name: Federal Mediation and Conciliation Service Discovery API
+  description: Registered content types, taxonomies, statuses and oEmbed.
+  humanURL: https://www.fmcs.gov/resources/documents-and-data/
+  baseURL: https://www.fmcs.gov/wp-json
+  tags:
+  - Discovery
+  properties:
+  - type: OpenAPI
+    url: openapi/federal-mediation-and-conciliation-service-discovery-api-openapi.yml
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-posts.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-pages.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-media.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-events.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-categories.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-faq-categories.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-types.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-taxonomies.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-search.json
+- aid: federal-mediation-and-conciliation-service:federal-mediation-and-conciliation-service-documents-api
+  name: Federal Mediation and Conciliation Service Documents API
+  description: The media library — F-7 notice workbooks, FOIA reports, audit reports and programme PDFs.
+  humanURL: https://www.fmcs.gov/resources/documents-and-data/
+  baseURL: https://www.fmcs.gov/wp-json
+  tags:
+  - Documents
+  properties:
+  - type: OpenAPI
+    url: openapi/federal-mediation-and-conciliation-service-documents-api-openapi.yml
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-posts.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-pages.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-media.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-events.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-categories.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-faq-categories.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-types.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-taxonomies.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-search.json
+- aid: federal-mediation-and-conciliation-service:federal-mediation-and-conciliation-service-events-api
+  name: Federal Mediation and Conciliation Service Events API
+  description: FMCS training and convening announcements and their registration taxonomies.
+  humanURL: https://www.fmcs.gov/resources/documents-and-data/
+  baseURL: https://www.fmcs.gov/wp-json
+  tags:
+  - Events
+  properties:
+  - type: OpenAPI
+    url: openapi/federal-mediation-and-conciliation-service-events-api-openapi.yml
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-posts.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-pages.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-media.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-events.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-categories.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-faq-categories.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-types.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-taxonomies.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-search.json
+- aid: federal-mediation-and-conciliation-service:federal-mediation-and-conciliation-service-faq-api
+  name: Federal Mediation and Conciliation Service FAQ API
+  description: The FAQ post type classified by the FMCS service taxonomy.
+  humanURL: https://www.fmcs.gov/resources/documents-and-data/
+  baseURL: https://www.fmcs.gov/wp-json
+  tags:
+  - FAQ
+  properties:
+  - type: OpenAPI
+    url: openapi/federal-mediation-and-conciliation-service-faq-api-openapi.yml
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-posts.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-pages.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-media.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-events.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-categories.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-faq-categories.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-types.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-taxonomies.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-search.json
+- aid: federal-mediation-and-conciliation-service:federal-mediation-and-conciliation-service-news-api
+  name: Federal Mediation and Conciliation Service News API
+  description: Posts published to www.fmcs.gov, including the agency history timeline.
+  humanURL: https://www.fmcs.gov/resources/documents-and-data/
+  baseURL: https://www.fmcs.gov/wp-json
+  tags:
+  - News
+  properties:
+  - type: OpenAPI
+    url: openapi/federal-mediation-and-conciliation-service-news-api-openapi.yml
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-posts.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-pages.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-media.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-events.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-categories.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-faq-categories.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-types.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-taxonomies.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-search.json
+- aid: federal-mediation-and-conciliation-service:federal-mediation-and-conciliation-service-pages-api
+  name: Federal Mediation and Conciliation Service Pages API
+  description: Programme, services and administrative pages.
+  humanURL: https://www.fmcs.gov/resources/documents-and-data/
+  baseURL: https://www.fmcs.gov/wp-json
+  tags:
+  - Pages
+  properties:
+  - type: OpenAPI
+    url: openapi/federal-mediation-and-conciliation-service-pages-api-openapi.yml
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-posts.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-pages.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-media.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-events.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-categories.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-faq-categories.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-types.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-taxonomies.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-search.json
+- aid: federal-mediation-and-conciliation-service:federal-mediation-and-conciliation-service-search-api
+  name: Federal Mediation and Conciliation Service Search API
+  description: Cross-type site search.
+  humanURL: https://www.fmcs.gov/resources/documents-and-data/
+  baseURL: https://www.fmcs.gov/wp-json
+  tags:
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/federal-mediation-and-conciliation-service-search-api-openapi.yml
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-posts.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-pages.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-media.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-events.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-categories.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-faq-categories.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-types.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-taxonomies.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-search.json
+- aid: federal-mediation-and-conciliation-service:federal-mediation-and-conciliation-service-taxonomy-api
+  name: Federal Mediation and Conciliation Service Taxonomy API
+  description: Categories, tags and the FMCS service taxonomy.
+  humanURL: https://www.fmcs.gov/resources/documents-and-data/
+  baseURL: https://www.fmcs.gov/wp-json
+  tags:
+  - Taxonomy
+  properties:
+  - type: OpenAPI
+    url: openapi/federal-mediation-and-conciliation-service-taxonomy-api-openapi.yml
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-posts.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-pages.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-media.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-events.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-categories.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-faq-categories.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-types.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-taxonomies.json
+  - type: Examples
+    url: examples/federal-mediation-and-conciliation-service-search.json
+common:
+- type: OpenAPI
+  url: openapi/_original/federal-mediation-and-conciliation-service-wp-content-openapi.yml
+- type: Overlay
+  url: overlays/federal-mediation-and-conciliation-service-wp-content-overlay.yaml
+- type: Authentication
+  url: authentication/federal-mediation-and-conciliation-service-authentication.yml
+- type: Conventions
+  url: conventions/federal-mediation-and-conciliation-service-conventions.yml
+- type: ErrorCatalog
+  url: errors/federal-mediation-and-conciliation-service-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/federal-mediation-and-conciliation-service-lifecycle.yml
+- type: Conformance
+  url: conformance/federal-mediation-and-conciliation-service-conformance.yml
+- type: DataModel
+  url: data-model/federal-mediation-and-conciliation-service-data-model.yml
+- type: RateLimits
+  url: rate-limits/federal-mediation-and-conciliation-service-rate-limits.yml
+- type: Plans
+  url: plans/federal-mediation-and-conciliation-service-plans-pricing.yml
+- type: Packages
+  url: packages/federal-mediation-and-conciliation-service-packages.yml
+- type: X-MCPServerCandidate
+  url: mcp/federal-mediation-and-conciliation-service-mcp.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/federal-mediation-and-conciliation-service-llms.txt
+- type: AgenticAccess
+  url: agentic-access/federal-mediation-and-conciliation-service-agentic-access.yml
+- type: VulnerabilityDisclosure
+  url: security/federal-mediation-and-conciliation-service-vulnerability-disclosure.yml
+- type: Security
+  url: https://www.fmcs.gov/vulnerability-disclosure-policy/
+- type: DomainSecurity
+  url: security/federal-mediation-and-conciliation-service-domain-security.yml
+- type: LinkedIn
+  url: https://www.linkedin.com/company/federal-mediation-and-conciliation-service
+- type: Website
+  url: https://www.fmcs.gov/
+- type: Blog
+  url: https://www.fmcs.gov/feed/
+- type: Support
+  url: https://www.fmcs.gov/contact-us/
+- type: TermsOfService
+  url: https://www.fmcs.gov/terms-of-use/
+- type: PrivacyPolicy
+  url: https://www.fmcs.gov/privacy-policy/
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
 x-enrichment:
   date: '2026-09-09'
   status: enriched

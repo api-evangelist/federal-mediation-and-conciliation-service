@@ -156,6 +156,8 @@ apis:
   humanURL: https://www.fmcs.gov/resources/documents-and-data/
   baseURL: https://www.fmcs.gov/wp-json
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI

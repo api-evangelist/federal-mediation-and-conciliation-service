@@ -1,0 +1,621 @@
+openapi: 3.2.0
+info:
+  title: FMCS Public Content API (WordPress REST) Taxonomy API
+  version: wp/v2
+  summary: The anonymous, read-only WordPress REST API serving www.fmcs.gov content — posts, programme pages, the document media library, the neutrals directory, events and the FMCS service taxonomy.
+  description: The Federal Mediation and Conciliation Service publishes no developer programme, no API documentation and no machine-readable specification of its own.
+  contact:
+    name: FMCS Office of Public Affairs
+    url: https://www.fmcs.gov/contact-us/
+  license:
+    name: U.S. Government Work (17 U.S.C. Sec. 105) — see FMCS website policies
+    url: https://www.fmcs.gov/website-policies/
+  x-provenance:
+    method: derived
+    source: https://www.fmcs.gov/wp-json/
+    derived: '2026-09-09'
+    verbatim_source_file: openapi/federal-mediation-and-conciliation-service-wp-routes-original.json
+    note: Derived by API Evangelist from the live WordPress route discovery document served by www.fmcs.gov. Not authored, published or endorsed by FMCS.
+servers:
+- url: https://www.fmcs.gov/wp-json
+  description: WordPress REST root for www.fmcs.gov. Verified reachable and 200 on 2026-09-09 with no credentials.
+security:
+- {}
+tags:
+- name: Taxonomy
+  description: Categories, tags and the FMCS service taxonomy.
+paths:
+  /wp/v2/categories:
+    get:
+      operationId: listCategories
+      summary: List post categories
+      description: The `category` taxonomy applied to posts. Eight terms at the time of harvest, mostly the agency history timeline bands (timeline-1838-1890, timeline-1900-1946, timeline-1947-1969, timeline-1970-1990, timeline-1990-2013, time-2014-present) plus `news`.
+      tags:
+      - Taxonomy
+      security:
+      - {}
+      parameters:
+      - name: context
+        in: query
+        description: Scope under which the request is made; determines fields present in response.
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+      - name: exclude
+        in: query
+        description: Ensure result set excludes specific IDs.
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: hide_empty
+        in: query
+        description: Whether to hide terms not assigned to any posts.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: include
+        in: query
+        description: Limit result set to specific IDs.
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: order
+        in: query
+        description: Order sort attribute ascending or descending.
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: asc
+      - name: orderby
+        in: query
+        description: Sort collection by term attribute.
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - include
+          - name
+          - slug
+          - include_slugs
+          - term_group
+          - description
+          - count
+          default: name
+      - name: page
+        in: query
+        description: Current page of the collection.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+      - name: parent
+        in: query
+        description: Limit result set to terms assigned to a specific parent.
+        required: false
+        schema:
+          type: integer
+      - name: per_page
+        in: query
+        description: Maximum number of items to be returned in result set.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+      - name: post
+        in: query
+        description: Limit result set to terms assigned to a specific post.
+        required: false
+        schema:
+          type: integer
+      - name: search
+        in: query
+        description: Limit results to those matching a string.
+        required: false
+        schema:
+          type: string
+      - name: slug
+        in: query
+        description: Limit result set to terms with one or more specific slugs.
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: List post categories — a page of records.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPCollection'
+          headers:
+            X-WP-Total:
+              description: Total number of records matching the query.
+              schema:
+                type: integer
+            X-WP-TotalPages:
+              description: Total number of pages available at the requested per_page size.
+              schema:
+                type: integer
+            Link:
+              description: RFC 8288 pagination links; rel="next" and rel="prev" where applicable.
+              schema:
+                type: string
+        '400':
+          description: rest_invalid_param — a query parameter failed validation. Observed anonymously on 2026-09-09 for per_page=999.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+      x-verified:
+        url: https://www.fmcs.gov/wp-json/wp/v2/categories?per_page=1
+        status: 200
+        date: '2026-09-09'
+      x-record-count:
+        value: 8
+        source: X-WP-Total response header
+        observed: '2026-09-09'
+  /wp/v2/categories/{id}:
+    get:
+      operationId: getCategory
+      summary: Get a single category
+      description: Retrieve one category term by ID, including its name, slug, description and post count.
+      tags:
+      - Taxonomy
+      security:
+      - {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Unique identifier for the term.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Get a single category — a single record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPObject'
+        '400':
+          description: rest_invalid_param — a query parameter failed validation. Observed anonymously on 2026-09-09 for per_page=999.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+        '404':
+          description: Invalid ID — the record does not exist or is not public (e.g. rest_post_invalid_id).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+      x-verified:
+        url: https://www.fmcs.gov/wp-json/wp/v2/categories/523
+        status: 200
+        date: '2026-09-09'
+  /wp/v2/tags:
+    get:
+      operationId: listTags
+      summary: List post tags
+      description: The `post_tag` taxonomy. Twelve terms at the time of harvest.
+      tags:
+      - Taxonomy
+      security:
+      - {}
+      parameters:
+      - name: context
+        in: query
+        description: Scope under which the request is made; determines fields present in response.
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+      - name: exclude
+        in: query
+        description: Ensure result set excludes specific IDs.
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: hide_empty
+        in: query
+        description: Whether to hide terms not assigned to any posts.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: include
+        in: query
+        description: Limit result set to specific IDs.
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: offset
+        in: query
+        description: Offset the result set by a specific number of items.
+        required: false
+        schema:
+          type: integer
+      - name: order
+        in: query
+        description: Order sort attribute ascending or descending.
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: asc
+      - name: orderby
+        in: query
+        description: Sort collection by term attribute.
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - include
+          - name
+          - slug
+          - include_slugs
+          - term_group
+          - description
+          - count
+          default: name
+      - name: page
+        in: query
+        description: Current page of the collection.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+      - name: per_page
+        in: query
+        description: Maximum number of items to be returned in result set.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+      - name: post
+        in: query
+        description: Limit result set to terms assigned to a specific post.
+        required: false
+        schema:
+          type: integer
+      - name: search
+        in: query
+        description: Limit results to those matching a string.
+        required: false
+        schema:
+          type: string
+      - name: slug
+        in: query
+        description: Limit result set to terms with one or more specific slugs.
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: List post tags — a page of records.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPCollection'
+          headers:
+            X-WP-Total:
+              description: Total number of records matching the query.
+              schema:
+                type: integer
+            X-WP-TotalPages:
+              description: Total number of pages available at the requested per_page size.
+              schema:
+                type: integer
+            Link:
+              description: RFC 8288 pagination links; rel="next" and rel="prev" where applicable.
+              schema:
+                type: string
+        '400':
+          description: rest_invalid_param — a query parameter failed validation. Observed anonymously on 2026-09-09 for per_page=999.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+      x-verified:
+        url: https://www.fmcs.gov/wp-json/wp/v2/tags?per_page=1
+        status: 200
+        date: '2026-09-09'
+      x-record-count:
+        value: 12
+        source: X-WP-Total response header
+        observed: '2026-09-09'
+  /wp/v2/tags/{id}:
+    get:
+      operationId: getTag
+      summary: Get a single tag
+      description: Retrieve one tag term by ID.
+      tags:
+      - Taxonomy
+      security:
+      - {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Unique identifier for the term.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Get a single tag — a single record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPObject'
+        '400':
+          description: rest_invalid_param — a query parameter failed validation. Observed anonymously on 2026-09-09 for per_page=999.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+        '404':
+          description: Invalid ID — the record does not exist or is not public (e.g. rest_post_invalid_id).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+      x-verified:
+        url: https://www.fmcs.gov/wp-json/wp/v2/tags/602
+        status: 200
+        date: '2026-09-09'
+  /wp/v2/faq_category:
+    get:
+      operationId: listFaqCategories
+      summary: List FAQ categories
+      description: 'The `faq_category` taxonomy, which is the closest machine-readable statement FMCS publishes of its own service catalogue. Seventeen terms at the time of harvest: arbitration, collective-bargaining-mediation, grievance-mediation, workplace-mediation, facilitation, dispute-resolution-systems-design, regulatory-negotiations, public-policy-dialogues, labor-management-partnership, organizational-development, alternative-bargaining-processes, effective-contract-administration, repairing-broken-relationships, administrative-program-dispute, notices-and-filings, shared-neutrals and grant.'
+      tags:
+      - Taxonomy
+      security:
+      - {}
+      parameters:
+      - name: context
+        in: query
+        description: Scope under which the request is made; determines fields present in response.
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+      - name: exclude
+        in: query
+        description: Ensure result set excludes specific IDs.
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: hide_empty
+        in: query
+        description: Whether to hide terms not assigned to any posts.
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: include
+        in: query
+        description: Limit result set to specific IDs.
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: order
+        in: query
+        description: Order sort attribute ascending or descending.
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: asc
+      - name: orderby
+        in: query
+        description: Sort collection by term attribute.
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - include
+          - name
+          - slug
+          - include_slugs
+          - term_group
+          - description
+          - count
+          default: name
+      - name: page
+        in: query
+        description: Current page of the collection.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+      - name: parent
+        in: query
+        description: Limit result set to terms assigned to a specific parent.
+        required: false
+        schema:
+          type: integer
+      - name: per_page
+        in: query
+        description: Maximum number of items to be returned in result set.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+      - name: post
+        in: query
+        description: Limit result set to terms assigned to a specific post.
+        required: false
+        schema:
+          type: integer
+      - name: search
+        in: query
+        description: Limit results to those matching a string.
+        required: false
+        schema:
+          type: string
+      - name: slug
+        in: query
+        description: Limit result set to terms with one or more specific slugs.
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: List FAQ categories — a page of records.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPCollection'
+          headers:
+            X-WP-Total:
+              description: Total number of records matching the query.
+              schema:
+                type: integer
+            X-WP-TotalPages:
+              description: Total number of pages available at the requested per_page size.
+              schema:
+                type: integer
+            Link:
+              description: RFC 8288 pagination links; rel="next" and rel="prev" where applicable.
+              schema:
+                type: string
+        '400':
+          description: rest_invalid_param — a query parameter failed validation. Observed anonymously on 2026-09-09 for per_page=999.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+      x-verified:
+        url: https://www.fmcs.gov/wp-json/wp/v2/faq_category?per_page=1
+        status: 200
+        date: '2026-09-09'
+      x-record-count:
+        value: 17
+        source: X-WP-Total response header
+        observed: '2026-09-09'
+  /wp/v2/faq_category/{id}:
+    get:
+      operationId: getFaqCategory
+      summary: Get a single FAQ category
+      description: Retrieve one FAQ category term by ID.
+      tags:
+      - Taxonomy
+      security:
+      - {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Unique identifier for the term.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Get a single FAQ category — a single record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPObject'
+        '400':
+          description: rest_invalid_param — a query parameter failed validation. Observed anonymously on 2026-09-09 for per_page=999.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+        '404':
+          description: Invalid ID — the record does not exist or is not public (e.g. rest_post_invalid_id).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+      x-verified:
+        url: https://www.fmcs.gov/wp-json/wp/v2/faq_category/536
+        status: 200
+        date: '2026-09-09'
+components:
+  schemas:
+    WPError:
+      type: object
+      description: The WordPress REST error envelope. This API does NOT use RFC 9457 application/problem+json; errors are returned as application/json with this shape.
+      required:
+      - code
+      - message
+      - data
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code, e.g. rest_invalid_param, rest_no_route, rest_post_invalid_id, rest_forbidden, rest_comment_disabled.
+        message:
+          type: string
+          description: Human-readable message.
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+              description: The HTTP status, repeated in the body.
+            params:
+              type: object
+              description: 'Present on rest_invalid_param: a map of offending parameter name to explanation.'
+            details:
+              type: object
+              description: 'Present on rest_invalid_param: per-parameter code/message/data detail.'
+    WPObject:
+      type: object
+      description: A single WordPress REST record.
+    WPCollection:
+      type: array
+      description: A page of WordPress REST records. Page size is controlled by per_page (1-100, default 10) and page; the total count and page count are returned in the X-WP-Total and X-WP-TotalPages response headers, and RFC 8288 next/prev links in Link.
+      items:
+        type: object

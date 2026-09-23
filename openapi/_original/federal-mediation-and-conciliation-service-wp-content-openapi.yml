@@ -1,3 +1,5 @@
+# x-archived-from: federal-mediation-and-conciliation-service-wp-content-openapi.yml
+# x-archived-on: 2026-09-16
 openapi: 3.1.0
 info:
   title: FMCS Public Content API (WordPress REST)

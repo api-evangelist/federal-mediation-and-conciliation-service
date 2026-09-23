@@ -1,0 +1,365 @@
+openapi: 3.2.0
+info:
+  title: FMCS Public Content API (WordPress REST) Discovery API
+  version: wp/v2
+  summary: The anonymous, read-only WordPress REST API serving www.fmcs.gov content — posts, programme pages, the document media library, the neutrals directory, events and the FMCS service taxonomy.
+  description: The Federal Mediation and Conciliation Service publishes no developer programme, no API documentation and no machine-readable specification of its own.
+  contact:
+    name: FMCS Office of Public Affairs
+    url: https://www.fmcs.gov/contact-us/
+  license:
+    name: U.S. Government Work (17 U.S.C. Sec. 105) — see FMCS website policies
+    url: https://www.fmcs.gov/website-policies/
+  x-provenance:
+    method: derived
+    source: https://www.fmcs.gov/wp-json/
+    derived: '2026-09-09'
+    verbatim_source_file: openapi/federal-mediation-and-conciliation-service-wp-routes-original.json
+    note: Derived by API Evangelist from the live WordPress route discovery document served by www.fmcs.gov. Not authored, published or endorsed by FMCS.
+servers:
+- url: https://www.fmcs.gov/wp-json
+  description: WordPress REST root for www.fmcs.gov. Verified reachable and 200 on 2026-09-09 with no credentials.
+security:
+- {}
+tags:
+- name: Discovery
+  description: Registered content types, taxonomies, statuses and oEmbed.
+paths:
+  /wp/v2/types:
+    get:
+      operationId: listTypes
+      summary: List content types
+      description: Every registered WordPress post type on www.fmcs.gov with its REST base, supported features and taxonomy bindings. This is the discovery document for the collections above.
+      tags:
+      - Discovery
+      security:
+      - {}
+      parameters:
+      - name: context
+        in: query
+        description: Scope under which the request is made; determines fields present in response.
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+      responses:
+        '200':
+          description: A map of registered content types.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPObject'
+        '400':
+          description: rest_invalid_param — a query parameter failed validation. Observed anonymously on 2026-09-09 for per_page=999.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+        '404':
+          description: Invalid ID — the record does not exist or is not public (e.g. rest_post_invalid_id).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+      x-verified:
+        url: https://www.fmcs.gov/wp-json/wp/v2/types
+        status: 200
+        date: '2026-09-09'
+  /wp/v2/types/{type}:
+    get:
+      operationId: getType
+      summary: Get a single content type
+      description: Retrieve the registration record for one post type, e.g. `post`, `page`, `event`, `wpbdp_listing`.
+      tags:
+      - Discovery
+      security:
+      - {}
+      parameters:
+      - name: type
+        in: path
+        required: true
+        description: An alphanumeric identifier for the post type, e.g. post, page, event, wpbdp_listing.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Get a single content type — a single record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPObject'
+        '400':
+          description: rest_invalid_param — a query parameter failed validation. Observed anonymously on 2026-09-09 for per_page=999.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+        '404':
+          description: Invalid ID — the record does not exist or is not public (e.g. rest_post_invalid_id).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+      x-verified:
+        url: https://www.fmcs.gov/wp-json/wp/v2/types/post
+        status: 200
+        date: '2026-09-09'
+  /wp/v2/taxonomies:
+    get:
+      operationId: listTaxonomies
+      summary: List taxonomies
+      description: Every registered taxonomy with its REST base and the post types it applies to — category, post_tag, faq_category, wpbdp_category, wpbdp_tag, espresso_event_categories, espresso_event_type.
+      tags:
+      - Discovery
+      security:
+      - {}
+      parameters:
+      - name: context
+        in: query
+        description: Scope under which the request is made; determines fields present in response.
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+      - name: type
+        in: query
+        description: Limit results to taxonomies associated with a specific post type.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A map of registered taxonomies.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPObject'
+        '400':
+          description: rest_invalid_param — a query parameter failed validation. Observed anonymously on 2026-09-09 for per_page=999.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+        '404':
+          description: Invalid ID — the record does not exist or is not public (e.g. rest_post_invalid_id).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+      x-verified:
+        url: https://www.fmcs.gov/wp-json/wp/v2/taxonomies
+        status: 200
+        date: '2026-09-09'
+  /wp/v2/taxonomies/{taxonomy}:
+    get:
+      operationId: getTaxonomy
+      summary: Get a single taxonomy
+      description: Retrieve the registration record for one taxonomy, e.g. `category` or `faq_category`.
+      tags:
+      - Discovery
+      security:
+      - {}
+      parameters:
+      - name: taxonomy
+        in: path
+        required: true
+        description: An alphanumeric identifier for the taxonomy, e.g. category, post_tag, faq_category.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Get a single taxonomy — a single record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPObject'
+        '400':
+          description: rest_invalid_param — a query parameter failed validation. Observed anonymously on 2026-09-09 for per_page=999.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+        '404':
+          description: Invalid ID — the record does not exist or is not public (e.g. rest_post_invalid_id).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+      x-verified:
+        url: https://www.fmcs.gov/wp-json/wp/v2/taxonomies/category
+        status: 200
+        date: '2026-09-09'
+  /wp/v2/statuses:
+    get:
+      operationId: listStatuses
+      summary: List post statuses
+      description: The post statuses visible to an anonymous caller. Only `publish` is exposed publicly.
+      tags:
+      - Discovery
+      security:
+      - {}
+      parameters:
+      - name: context
+        in: query
+        description: Scope under which the request is made; determines fields present in response.
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+      responses:
+        '200':
+          description: A map of publicly visible post statuses.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPObject'
+        '400':
+          description: rest_invalid_param — a query parameter failed validation. Observed anonymously on 2026-09-09 for per_page=999.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+        '404':
+          description: Invalid ID — the record does not exist or is not public (e.g. rest_post_invalid_id).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+      x-verified:
+        url: https://www.fmcs.gov/wp-json/wp/v2/statuses
+        status: 200
+        date: '2026-09-09'
+  /wp/v2/statuses/{status}:
+    get:
+      operationId: getStatus
+      summary: Get a single post status
+      description: Retrieve one post status record, e.g. `publish`.
+      tags:
+      - Discovery
+      security:
+      - {}
+      parameters:
+      - name: status
+        in: path
+        required: true
+        description: An alphanumeric identifier for the status, e.g. publish.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Get a single post status — a single record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPObject'
+        '400':
+          description: rest_invalid_param — a query parameter failed validation. Observed anonymously on 2026-09-09 for per_page=999.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+        '404':
+          description: Invalid ID — the record does not exist or is not public (e.g. rest_post_invalid_id).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+      x-verified:
+        url: https://www.fmcs.gov/wp-json/wp/v2/statuses/publish
+        status: 200
+        date: '2026-09-09'
+  /oembed/1.0/embed:
+    get:
+      operationId: oembed
+      summary: Get an oEmbed representation of an FMCS URL
+      description: The WordPress oEmbed provider endpoint. Given any www.fmcs.gov permalink it returns an oEmbed 1.0 response (title, author, provider, thumbnail and embed HTML) — a cheap way to resolve a page URL to structured metadata without fetching and parsing the page.
+      tags:
+      - Discovery
+      security:
+      - {}
+      parameters:
+      - name: format
+        in: query
+        required: false
+        schema:
+          type: string
+          default: json
+      - name: maxwidth
+        in: query
+        required: false
+        schema:
+          type: string
+          default: 600
+      - name: url
+        in: query
+        description: The URL of the resource for which to fetch oEmbed data.
+        required: true
+        schema:
+          type: string
+          format: uri
+      responses:
+        '200':
+          description: An oEmbed 1.0 response document.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPObject'
+        '400':
+          description: rest_invalid_param — a query parameter failed validation. Observed anonymously on 2026-09-09 for per_page=999.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+        '404':
+          description: Invalid ID — the record does not exist or is not public (e.g. rest_post_invalid_id).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+      x-verified:
+        url: https://www.fmcs.gov/wp-json/oembed/1.0/embed?url=https://www.fmcs.gov/
+        status: 200
+        date: '2026-09-09'
+components:
+  schemas:
+    WPError:
+      type: object
+      description: The WordPress REST error envelope. This API does NOT use RFC 9457 application/problem+json; errors are returned as application/json with this shape.
+      required:
+      - code
+      - message
+      - data
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code, e.g. rest_invalid_param, rest_no_route, rest_post_invalid_id, rest_forbidden, rest_comment_disabled.
+        message:
+          type: string
+          description: Human-readable message.
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+              description: The HTTP status, repeated in the body.
+            params:
+              type: object
+              description: 'Present on rest_invalid_param: a map of offending parameter name to explanation.'
+            details:
+              type: object
+              description: 'Present on rest_invalid_param: per-parameter code/message/data detail.'
+    WPObject:
+      type: object
+      description: A single WordPress REST record.

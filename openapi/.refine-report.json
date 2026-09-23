@@ -1,0 +1,36 @@
+{
+  "provider": "federal-mediation-and-conciliation-service",
+  "sources": [
+    "_original/federal-mediation-and-conciliation-service-wp-content-openapi.yml"
+  ],
+  "outputs": [
+    "federal-mediation-and-conciliation-service-directory-api-openapi.yml",
+    "federal-mediation-and-conciliation-service-discovery-api-openapi.yml",
+    "federal-mediation-and-conciliation-service-documents-api-openapi.yml",
+    "federal-mediation-and-conciliation-service-events-api-openapi.yml",
+    "federal-mediation-and-conciliation-service-faq-api-openapi.yml",
+    "federal-mediation-and-conciliation-service-news-api-openapi.yml",
+    "federal-mediation-and-conciliation-service-pages-api-openapi.yml",
+    "federal-mediation-and-conciliation-service-search-api-openapi.yml",
+    "federal-mediation-and-conciliation-service-taxonomy-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "federal-mediation-and-conciliation-service-wp-content-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "federal-mediation-and-conciliation-service-directory-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "federal-mediation-and-conciliation-service-discovery-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "federal-mediation-and-conciliation-service-documents-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "federal-mediation-and-conciliation-service-events-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "federal-mediation-and-conciliation-service-faq-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "federal-mediation-and-conciliation-service-news-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "federal-mediation-and-conciliation-service-pages-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "federal-mediation-and-conciliation-service-search-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "federal-mediation-and-conciliation-service-taxonomy-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

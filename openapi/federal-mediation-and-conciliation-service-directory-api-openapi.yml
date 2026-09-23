@@ -1,0 +1,554 @@
+openapi: 3.2.0
+info:
+  title: FMCS Public Content API (WordPress REST) Directory API
+  version: wp/v2
+  summary: The anonymous, read-only WordPress REST API serving www.fmcs.gov content — posts, programme pages, the document media library, the neutrals directory, events and the FMCS service taxonomy.
+  description: The Federal Mediation and Conciliation Service publishes no developer programme, no API documentation and no machine-readable specification of its own.
+  contact:
+    name: FMCS Office of Public Affairs
+    url: https://www.fmcs.gov/contact-us/
+  license:
+    name: U.S. Government Work (17 U.S.C. Sec. 105) — see FMCS website policies
+    url: https://www.fmcs.gov/website-policies/
+  x-provenance:
+    method: derived
+    source: https://www.fmcs.gov/wp-json/
+    derived: '2026-09-09'
+    verbatim_source_file: openapi/federal-mediation-and-conciliation-service-wp-routes-original.json
+    note: Derived by API Evangelist from the live WordPress route discovery document served by www.fmcs.gov. Not authored, published or endorsed by FMCS.
+servers:
+- url: https://www.fmcs.gov/wp-json
+  description: WordPress REST root for www.fmcs.gov. Verified reachable and 200 on 2026-09-09 with no credentials.
+security:
+- {}
+tags:
+- name: Directory
+  description: The published neutrals directory and site author list. Personal data.
+paths:
+  /wp/v2/wpbdp_listing:
+    get:
+      operationId: listDirectoryListings
+      summary: List FMCS directory listings
+      description: The Business Directory Plugin listing type used by FMCS for its published neutrals directory. 121 records at the time of harvest; each record's `title.rendered` is a person's surname and `link` points at that person's page on www.fmcs.gov. Content bodies are empty in the API projection — the listing detail is rendered by the plugin's own shortcode, not by the REST payload.
+      tags:
+      - Directory
+      security:
+      - {}
+      parameters:
+      - name: after
+        in: query
+        description: Limit response to posts published after a given ISO8601 compliant date.
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: author
+        in: query
+        description: Limit result set to posts assigned to specific authors.
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: author_exclude
+        in: query
+        description: Ensure result set excludes posts assigned to specific authors.
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: before
+        in: query
+        description: Limit response to posts published before a given ISO8601 compliant date.
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: context
+        in: query
+        description: Scope under which the request is made; determines fields present in response.
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+      - name: exclude
+        in: query
+        description: Ensure result set excludes specific IDs.
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: include
+        in: query
+        description: Limit result set to specific IDs.
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: modified_after
+        in: query
+        description: Limit response to posts modified after a given ISO8601 compliant date.
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: modified_before
+        in: query
+        description: Limit response to posts modified before a given ISO8601 compliant date.
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: offset
+        in: query
+        description: Offset the result set by a specific number of items.
+        required: false
+        schema:
+          type: integer
+      - name: order
+        in: query
+        description: Order sort attribute ascending or descending.
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: desc
+      - name: orderby
+        in: query
+        description: Sort collection by post attribute.
+        required: false
+        schema:
+          type: string
+          enum:
+          - author
+          - date
+          - id
+          - include
+          - modified
+          - parent
+          - relevance
+          - slug
+          - include_slugs
+          - title
+          default: date
+      - name: page
+        in: query
+        description: Current page of the collection.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+      - name: per_page
+        in: query
+        description: Maximum number of items to be returned in result set.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+      - name: search
+        in: query
+        description: Limit results to those matching a string.
+        required: false
+        schema:
+          type: string
+      - name: search_semantics
+        in: query
+        description: How to interpret the search input.
+        required: false
+        schema:
+          type: string
+          enum:
+          - exact
+      - name: slug
+        in: query
+        description: Limit result set to posts with one or more specific slugs.
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: status
+        in: query
+        description: Limit result set to posts assigned one or more statuses.
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - publish
+            - future
+            - draft
+            - pending
+            - private
+            - trash
+            - auto-draft
+            - inherit
+            - request-pending
+            - request-confirmed
+            - request-failed
+            - request-completed
+            - dp-rewrite-republish
+            - any
+          default: publish
+      - name: tax_relation
+        in: query
+        description: Limit result set based on relationship between multiple taxonomies.
+        required: false
+        schema:
+          type: string
+          enum:
+          - AND
+          - OR
+      - name: wpbdp_category
+        in: query
+        description: Limit result set to items with specific terms assigned in the wpbdp_category taxonomy.
+        required: false
+        schema:
+          type: object
+      - name: wpbdp_category_exclude
+        in: query
+        description: Limit result set to items except those with specific terms assigned in the wpbdp_category taxonomy.
+        required: false
+        schema:
+          type: object
+      - name: wpbdp_tag
+        in: query
+        description: Limit result set to items with specific terms assigned in the wpbdp_tag taxonomy.
+        required: false
+        schema:
+          type: object
+      - name: wpbdp_tag_exclude
+        in: query
+        description: Limit result set to items except those with specific terms assigned in the wpbdp_tag taxonomy.
+        required: false
+        schema:
+          type: object
+      responses:
+        '200':
+          description: List FMCS directory listings — a page of records.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPCollection'
+          headers:
+            X-WP-Total:
+              description: Total number of records matching the query.
+              schema:
+                type: integer
+            X-WP-TotalPages:
+              description: Total number of pages available at the requested per_page size.
+              schema:
+                type: integer
+            Link:
+              description: RFC 8288 pagination links; rel="next" and rel="prev" where applicable.
+              schema:
+                type: string
+        '400':
+          description: rest_invalid_param — a query parameter failed validation. Observed anonymously on 2026-09-09 for per_page=999.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+      x-verified:
+        url: https://www.fmcs.gov/wp-json/wp/v2/wpbdp_listing?per_page=1
+        status: 200
+        date: '2026-09-09'
+      x-record-count:
+        value: 121
+        source: X-WP-Total response header
+        observed: '2026-09-09'
+      x-personal-data: Records in this collection identify natural persons. FMCS publishes them on its own website; API Evangelist does not redistribute the records, stores no example response for this operation, and packages no agent skill or MCP tool against it.
+  /wp/v2/wpbdp_listing/{id}:
+    get:
+      operationId: getDirectoryListing
+      summary: Get a single directory listing
+      description: Retrieve one directory listing by ID.
+      tags:
+      - Directory
+      security:
+      - {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Unique identifier for the listing.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Get a single directory listing — a single record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPObject'
+        '400':
+          description: rest_invalid_param — a query parameter failed validation. Observed anonymously on 2026-09-09 for per_page=999.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+        '404':
+          description: Invalid ID — the record does not exist or is not public (e.g. rest_post_invalid_id).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+      x-verified:
+        url: https://www.fmcs.gov/wp-json/wp/v2/wpbdp_listing/30068
+        status: 200
+        date: '2026-09-09'
+      x-personal-data: This record identifies a natural person. No example response is stored and no agent skill or MCP tool is packaged against it.
+  /wp/v2/users:
+    get:
+      operationId: listAuthors
+      summary: List content authors
+      description: The public author list for www.fmcs.gov — the staff accounts that have published content, exposed anonymously by WordPress with display name, slug, description and author-archive link. Six accounts at the time of harvest.
+      tags:
+      - Directory
+      security:
+      - {}
+      parameters:
+      - name: capabilities
+        in: query
+        description: Limit result set to users matching at least one specific capability provided. Accepts csv list or single capability.
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: context
+        in: query
+        description: Scope under which the request is made; determines fields present in response.
+        required: false
+        schema:
+          type: string
+          enum:
+          - view
+          - embed
+          - edit
+          default: view
+      - name: exclude
+        in: query
+        description: Ensure result set excludes specific IDs.
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: has_published_posts
+        in: query
+        description: Limit result set to users who have published posts.
+        required: false
+        schema:
+          type: boolean
+      - name: include
+        in: query
+        description: Limit result set to specific IDs.
+        required: false
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: offset
+        in: query
+        description: Offset the result set by a specific number of items.
+        required: false
+        schema:
+          type: integer
+      - name: order
+        in: query
+        description: Order sort attribute ascending or descending.
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: asc
+      - name: orderby
+        in: query
+        description: Sort collection by user attribute.
+        required: false
+        schema:
+          type: string
+          enum:
+          - id
+          - include
+          - name
+          - registered_date
+          - slug
+          - include_slugs
+          - email
+          - url
+          default: name
+      - name: page
+        in: query
+        description: Current page of the collection.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+      - name: per_page
+        in: query
+        description: Maximum number of items to be returned in result set.
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+      - name: roles
+        in: query
+        description: Limit result set to users matching at least one specific role provided. Accepts csv list or single role.
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: search
+        in: query
+        description: Limit results to those matching a string.
+        required: false
+        schema:
+          type: string
+      - name: slug
+        in: query
+        description: Limit result set to users with one or more specific slugs.
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      - name: who
+        in: query
+        description: Limit result set to users who are considered authors.
+        required: false
+        schema:
+          type: string
+          enum:
+          - authors
+      responses:
+        '200':
+          description: List content authors — a page of records.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPCollection'
+          headers:
+            X-WP-Total:
+              description: Total number of records matching the query.
+              schema:
+                type: integer
+            X-WP-TotalPages:
+              description: Total number of pages available at the requested per_page size.
+              schema:
+                type: integer
+            Link:
+              description: RFC 8288 pagination links; rel="next" and rel="prev" where applicable.
+              schema:
+                type: string
+        '400':
+          description: rest_invalid_param — a query parameter failed validation. Observed anonymously on 2026-09-09 for per_page=999.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+      x-verified:
+        url: https://www.fmcs.gov/wp-json/wp/v2/users?per_page=1
+        status: 200
+        date: '2026-09-09'
+      x-record-count:
+        value: 6
+        source: X-WP-Total response header
+        observed: '2026-09-09'
+      x-personal-data: Records in this collection identify natural persons. FMCS publishes them on its own website; API Evangelist does not redistribute the records, stores no example response for this operation, and packages no agent skill or MCP tool against it.
+  /wp/v2/users/{id}:
+    get:
+      operationId: getAuthor
+      summary: Get a single content author
+      description: Retrieve one author record by ID.
+      tags:
+      - Directory
+      security:
+      - {}
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Unique identifier for the author.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Get a single content author — a single record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPObject'
+        '400':
+          description: rest_invalid_param — a query parameter failed validation. Observed anonymously on 2026-09-09 for per_page=999.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+        '404':
+          description: Invalid ID — the record does not exist or is not public (e.g. rest_post_invalid_id).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPError'
+      x-verified:
+        url: https://www.fmcs.gov/wp-json/wp/v2/users/238
+        status: 200
+        date: '2026-09-09'
+      x-personal-data: This record identifies a natural person. No example response is stored and no agent skill or MCP tool is packaged against it.
+components:
+  schemas:
+    WPError:
+      type: object
+      description: The WordPress REST error envelope. This API does NOT use RFC 9457 application/problem+json; errors are returned as application/json with this shape.
+      required:
+      - code
+      - message
+      - data
+      properties:
+        code:
+          type: string
+          description: Machine-readable error code, e.g. rest_invalid_param, rest_no_route, rest_post_invalid_id, rest_forbidden, rest_comment_disabled.
+        message:
+          type: string
+          description: Human-readable message.
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+              description: The HTTP status, repeated in the body.
+            params:
+              type: object
+              description: 'Present on rest_invalid_param: a map of offending parameter name to explanation.'
+            details:
+              type: object
+              description: 'Present on rest_invalid_param: per-parameter code/message/data detail.'
+    WPObject:
+      type: object
+      description: A single WordPress REST record.
+    WPCollection:
+      type: array
+      description: A page of WordPress REST records. Page size is controlled by per_page (1-100, default 10) and page; the total count and page count are returned in the X-WP-Total and X-WP-TotalPages response headers, and RFC 8288 next/prev links in Link.
+      items:
+        type: object

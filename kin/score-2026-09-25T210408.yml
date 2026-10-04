@@ -1,37 +1,35 @@
-# Kin Score artifact — federal-mediation-and-conciliation-service — 2026-08-27T132314
+# Kin Score artifact — federal-mediation-and-conciliation-service — 2026-09-25T210408
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: federal-mediation-and-conciliation-service
-  schema_version: 0.15.1
-  scored_at: '2026-08-27'
-  run_ts: 2026-08-27T132314
-  composite: 3.7
-  band: minimal
+  schema_version: 0.23.0
+  scored_at: '2026-09-25'
+  run_ts: 2026-09-25T210408
+  composite: 28.2
+  band: thin
   facets:
-    discoverability: 31.5
-    contract_quality: 0.0
-    governance: 0.0
-    operational_transparency: 0.0
-    developer_ergonomics: 2.4
-    commercial_clarity: 0.0
-    contract_governance: 0.0
-    access_clarity: 0.0
+    discoverability: 57.1
+    contract_quality: 24.0
+    contract_governance: 18.2
+    operational_transparency: 10.5
+    developer_ergonomics: 30.4
+    access_clarity: 21.1
   agent_readiness:
-    score: 0.0
-    band: human-only
+    score: 23.6
+    band: agent-aware
     dimensions:
-      spec_presence: false
-      agentic_access: false
+      spec_presence: true
+      agentic_access: derived
       reversibility_documented: false
       mcp_server: false
-      auth_clarity: false
+      auth_clarity: bearer
       idempotency: false
-      error_semantics: false
+      error_semantics: documented
       openapi_examples: false
-      rate_limit_signal: false
+      rate_limit_signal: documented
       event_surface_described: false
-      agent_skills: false
+      agent_skills: derived
       well_known_catalog: false
       consent_identity: false
       agent_card: false
@@ -44,5 +42,10 @@ kin_score:
     applies: true
     regime: Government & Public Sector
     regime_id: government
-    score: 22.2
+    score: 30.4
     matched_via: tags
+  provenance:
+    mcp: derived
+    skills: derived
+    agentic_access: derived
+    conformance: first-party

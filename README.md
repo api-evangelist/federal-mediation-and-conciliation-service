@@ -1,4 +1,4 @@
-# Federal Mediation and Conciliation Service (federal-mediation-and-conciliation-service)
+# Federal Mediation and Conciliation Service
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,28 +64,121 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-The Federal Mediation and Conciliation Service (FMCS) provides mediation and other conflict resolution services for managing and enhancing labor-management relationships.
+The Federal Mediation and Conciliation Service (FMCS) is an independent United States federal agency created by the Taft-Hartley Act of 1947 to prevent, minimize and resolve work stoppages and labor disputes. It provides collective bargaining mediation, grievance and workplace mediation, arbitrator panel referral, facilitation, dispute-resolution systems design, regulatory negotiations and labor- management partnership services across seventeen published service lines. FMCS also administers the statutory F-7 notice under 29 U.S.C. 158(d) and publishes those notices monthly as Excel workbooks. FMCS publishes no developer programme and no specification of its own; its public website runs on WordPress and serves an anonymous, read-only REST API at https://www.fmcs.gov/wp-json over the agency's pages, document library, neutrals directory, training events and service taxonomy, which is catalogued here.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/federal-mediation-and-conciliation-service/refs/heads/main/apis.yml)
+**Areas:** Federal Government · Labor · Mediation · Arbitration · Dispute Resolution · Government · Public Sector · Content
 
-## Scope
+## Federal Mediation and Conciliation Service on APIs.io
 
-- **Type:** Contract 
-- **Position:** Consuming 
-- **Access:** 3rd-Party 
+Everything profiled for Federal Mediation and Conciliation Service is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/federal-mediation-and-conciliation-service/](https://apis.io/providers/federal-mediation-and-conciliation-service/)** — or go straight to one of the APIs or properties below.
 
-## Tags:
+### APIs (1)
 
- - Federal Government
+- [Federal Mediation and Conciliation Service Website (WordPress REST)](https://apis.io/apis/federal-mediation-and-conciliation-service/fmcs-gov-website-wordpress-rest/) — The public WordPress REST API (wp-json) of the Federal Mediation and Conciliation Service website at www.fmcs.gov: the route index of the site's content…
 
-## Timestamps
+### Published properties
 
-- **Created:** 2024-12-03 
-- **Modified:** 2026-04-28 
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## Maintainers
+#### MCP servers (1)
 
-**FN:** Kin Lane
+Model Context Protocol servers that expose the API to agents.
 
-**Email:** kin@apievangelist.com
+- [federal-mediation-and-conciliation-service-mcp.yml](https://apis.io/servers/federal-mediation-and-conciliation-service/federal-mediation-and-conciliation-service-mcp-yml/)
 
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Federal Mediation And Conciliation Service Agentic Access](https://apis.io/agentic-access/federal-mediation-and-conciliation-service/federal-mediation-and-conciliation-service-agentic-access/)
+
+#### Examples (2)
+
+Example requests and responses.
+
+- [Moved to /providers/federal-mediation-and-conciliation-service/](https://apis.io/examples/federal-mediation-and-conciliation-service/federal-mediation-and-conciliation-service-taxonomies/)
+- [Moved to /providers/federal-mediation-and-conciliation-service/](https://apis.io/examples/federal-mediation-and-conciliation-service/federal-mediation-and-conciliation-service-types/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Federal Mediation And Conciliation Service Authentication](https://apis.io/security/federal-mediation-and-conciliation-service/federal-mediation-and-conciliation-service-authentication/)
+- [Federal Mediation And Conciliation Service Domain Security](https://apis.io/security/federal-mediation-and-conciliation-service/federal-mediation-and-conciliation-service-domain-security/)
+- [Federal Mediation And Conciliation Service Vulnerability Disclosure](https://apis.io/security/federal-mediation-and-conciliation-service/federal-mediation-and-conciliation-service-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Federal Mediation And Conciliation Service Plans Pricing](https://apis.io/plans/federal-mediation-and-conciliation-service/federal-mediation-and-conciliation-service-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Federal Mediation And Conciliation Service Rate Limits](https://apis.io/rate-limits/federal-mediation-and-conciliation-service/federal-mediation-and-conciliation-service-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.fmcs.gov/)
+- [Support](https://www.fmcs.gov/contact-us/)
+- [Blog](https://www.fmcs.gov/feed/)
+- [Security](https://www.fmcs.gov/vulnerability-disclosure-policy/)
+- [Terms of service](https://www.fmcs.gov/terms-of-use/)
+- [Privacy policy](https://www.fmcs.gov/privacy-policy/)
+
+## API Evangelist rating
+
+**Kin Score 28.1** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 57.1 |
+| Contract quality | 24.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 30.4 |
+| Access clarity | 21.1 |
+
+**Agent readiness 23.6** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 30.4** — Government & Public Sector
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/federal-mediation-and-conciliation-service/](https://apis.io/providers/federal-mediation-and-conciliation-service/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Federal Mediation and Conciliation Service: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/federal-mediation-and-conciliation-service/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
